@@ -1,0 +1,93 @@
+{%extends 'base.html'%}
+{%block content%}
+
+<div class="header-bottom sticky-header">
+	<div class="container">
+		<div class="header-left">
+			<div class="dropdown category-dropdown">
+				<a href="#" class="dropdown-toggle" title="Checkout">
+					Dashboard
+				</a>
+			</div><!-- End .category-dropdown -->
+		</div><!-- End .header-left -->
+
+		<div class="header-center">
+			<nav class="main-nav">
+				<ul class="menu sf-arrows">
+					<li>
+						<a href="{{ url_for('food.index') }}" :hover >Home</a>
+					</li>
+					<li>
+						<a href="category" >Menu</a>
+					</li>
+					<li>
+						<a href="about" >About</a>
+					</li>
+					<li>
+						<a href="contact" >Contact</a>
+					</li>
+			</nav><!-- End .main-nav -->
+		</div><!-- End .header-center -->
+
+		<div class="header-right">
+			<i class="la la-lightbulb-o"></i><p>Clearance<span class="highlight">&nbsp;Up to 30% Off</span></p>
+		</div>
+	</div><!-- End .container -->
+</div><!-- End .header-bottom -->
+</header><!-- End .header -->
+
+<main class="main">
+	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+		<div class="container">
+			<h1 class="page-title">Terms and Conditions<span>Privacy Policy</span></h1>
+		</div><!-- End .container -->
+	</div><!-- End .page-header -->
+	<nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+		<div class="container">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{{ url_for('food.index') }}">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Terms and Conditions</li>
+			</ol>
+		</div><!-- End .container -->
+	</nav><!-- End .breadcrumb-nav -->
+	<div class="page-content">
+		<div class="container">
+			<div class="all-items">
+				<p>Welcome to our ecommerce website! By using our website, you agree to comply with the following terms and conditions:</p>
+	
+				<div class="me">Use of our Website</div>
+				<ul>
+					<li>You must be 18 years or older to use our website.</li>
+					<li>You may not use our website for any illegal or unauthorized purpose.</li>
+					<li>You may not copy, reproduce, or distribute any content from our website without our permission.</li>
+					<li>We reserve the right to modify or terminate our website at any time without notice.</li>
+				</ul>
+	
+				<div class="me">Product Information</div>
+				<ul>
+					<li>We strive to provide accurate and up-to-date information about our products, but we do not guarantee that all information is complete or error-free.</li>
+					<li>We reserve the right to modify or discontinue any product at any time without notice.</li>
+					<li>All prices are subject to change without notice.</li>
+				</ul>
+	
+				<div class="me">Disclaimer of Warranties</div>
+				<p>Our website is provided on an "as is" and "as available" basis without any warranties of any kind. We disclaim all warranties, whether express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
+	
+				<div class="me">Privacy Policy</div>
+				<p>We value your privacy and are committed to protecting your personal information. By using our website, you consent to the collection and use of your information as described below:</p>
+	
+				<div class="me">Information We Collect</div>
+				<ul>
+					<li>We may collect personal information such as your name, email address, and shipping address when you make a purchase on our website.</li>
+					<li>We may also collect non-personal information such as your IP address, browser type, and operating system for analytical purposes.</li>
+				</ul>
+	
+				<div class="me">How We Use Your Information</div>
+				<ul>
+					<li>We use your personal information to process and fulfill your orders, to communicate with you about your orders, and to send you promotional materials.</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</main><!-- End .main -->
+{%endblock%}

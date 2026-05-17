@@ -1,0 +1,195 @@
+{%extends 'base.html'%}
+{%block content%}
+
+<div class="header-bottom sticky-header">
+	<div class="container">
+		<div class="header-left">
+			<div class="dropdown category-dropdown">
+				<a href="#" class="dropdown-toggle" title="Checkout">
+					Dashboard
+				</a>
+			</div><!-- End .category-dropdown -->
+		</div><!-- End .header-left -->
+
+		<div class="header-center">
+			<nav class="main-nav">
+				<ul class="menu sf-arrows">
+					<li>
+                        <a href="{{ url_for('food.index') }}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.category') }}" >Menu</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.about') }}" >About</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.contact') }}" >Contact</a>
+                    </li>
+			</nav><!-- End .main-nav -->
+		</div><!-- End .header-center -->
+
+		<div class="header-right">
+			<i class="la la-lightbulb-o"></i><p>Clearance<span class="highlight">&nbsp;Up to 30% Off</span></p>
+		</div>
+	</div><!-- End .container -->
+</div><!-- End .header-bottom -->
+</header><!-- End .header -->
+<main class="main">
+	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+		<div class="container">
+			<h1 class="page-title">{{g.user['username']}}<span>Activities</span></h1>
+		</div><!-- End .container -->
+	</div><!-- End .page-header -->
+	<nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+		<div class="container">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{{ url_for('food.index') }}">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">My Account</li>
+			</ol>
+		</div><!-- End .container -->
+	</nav><!-- End .breadcrumb-nav -->
+
+	<div class="page-content">
+		<div class="dashboard">
+			<div class="container">
+				<div class="row">
+					<aside class="col-md-4 col-lg-2">
+						<ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">Dashboard</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ url_for('admin.orders') }}">Orders</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="tab-reservations-link" data-toggle="tab" href="#tab-reservations" role="tab" aria-controls="tab-reservations" aria-selected="false">Book a Reservation</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="check-reservations-link" data-toggle="tab" href="#check-reservations" role="tab" aria-controls="check-reservations" aria-selected="false">Check my Reservation</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Account Details</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ url_for('auth.logout') }}">Sign Out</a>
+							</li>
+						</ul>
+					</aside><!-- End .col-lg-3 -->
+
+					<div class="col-md-8 col-lg-10">
+						<div class="tab-content">
+							<div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
+								<p>Hello <span class="font-weight-normal text-dark">{{g.user['username']}}</span> (not <span class="font-weight-normal text-dark">{{g.user['username']}}</span>? <a href="{{ url_for('auth.logout') }}">Log out</a>) 
+								<br>
+								From your account dashboard you can view your <a href="{{ url_for('admin.orders') }}" class="tab-trigger-link link-underline">recent orders</a> and make sure you<a href="#tab-account" class="tab-trigger-link">edit your password and account details(important)</a>.</p>
+							</div><!-- .End .tab-pane -->
+
+							<div class="tab-pane fade" id="tab-reservations" role="tabpanel" aria-labelledby="tab-reservations-link">
+								<div class="container-flash">
+									{% for message in get_flashed_messages() %}
+										<div class="modal-body" data-toggle="modal" tabindex="-1">      
+											<div class="p-3 mb-2 bg-success text-white" id="flash">
+												{{ message }}
+											</div>
+										</div>
+									{% endfor %}
+								</div>
+								<form method="POST" action="{{ url_for('user.create_reservation') }}">
+
+									<label for "restaurant">Preferred Restaurant *</label>
+									<select class="form-control" id="restaurant" name="restaurant" required>
+										{%for item in restaurant %}
+										<option>{{ item[restaurant_name] }}</option>
+										{% endfor %}
+									</select>
+
+									<label for="full-name">Full Name *</label>
+									<input type="text" class="form-control" id="full-name" name="full-name" required>
+									<small class="form-text">First name and Last name</small>
+									
+									<label for="number">Phone Number *</label>
+									<input type="tel" class="form-control" id="number" name="number" required>
+							
+									<label for="date">Date *</label>
+									<input type="date" class="form-control" id="date" name="date" required>
+									<small class="form-text">Date you are to physically be at the restaurant</small>
+
+									<label for="time">Time *</label>
+									<input type="time" class="form-control" id="time" name="time" required>
+									<small class="form-text">Time you are to physically be at the restaurant</small>
+
+									<label for="party_size">Number of Guests</label>
+									<input type="number" class="form-control" id="party_size" name="party_size" min='1' max='15' required>
+									<small class="form-text">We allow a total of 15 guest max</small>
+
+									<button type="submit" class="btn btn-outline-primary-2">
+										<span>CONFIRM RESERVATION</span>
+										<i class="icon-long-arrow-right"></i>
+									</button>
+								</form>
+							</div><!-- .End .tab-pane -->
+
+							<div class="tab-pane fade" id="check-reservations" role="tabpanel" aria-labelledby="check-reservations-link">
+								<p>No reservations has been made yet.</p>
+								<table class="table table-wishlist table-mobile">
+									<thead>
+										<tr>
+											<th>Full Name</th>
+											<th>Phone Number</th>
+											<th>Date</th>
+											<th>Time</th>
+											<th>Party Size</th>
+											<th></th>
+										</tr>
+									</thead>
+			
+									<tbody>
+										{% for row in data %}
+										<tr>
+											<td class="product-col">{{ row['full_name'] }}</td>
+											<td class="price-col">{{ row['number'] }}</td>
+											<td class="stock-col">{{ row['date'] }}</td>
+											<td class="action-col">{{ row['time'] }}</td>
+											<td class="stock-col">{{ row['party_size'] }}</td>
+											<td class="remove-col"><a href="{{ url_for('user.deleteRes', id=row['id']) }}" class="btn btn-outline-danger" title="Cancel Reservation">Cancel</a></td>
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table><!-- End .table table-wishlist -->
+							</div><!-- .End .tab-pane -->
+
+							<div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
+								<form action="{{ url_for('user.update_user_profile') }}" method="POST">
+
+									<label>Display Name *</label>
+									<input type="text" class="form-control" name="display_name" required>
+									<small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
+									
+									<label>Email address *</label>
+									<input type="email" class="form-control" name="email" required>
+							
+									<label>Current password (leave blank to leave unchanged)</label>
+									<input type="password" name="current_password" class="form-control">
+
+									<label>New password (leave blank to leave unchanged)</label>
+									<input type="password" name="new_password" class="form-control">
+
+									<label>Confirm new password</label>
+									<input type="password" name="confirm_password" class="form-control mb-2">
+
+									<button type="submit" class="btn btn-outline-primary-2">
+										<span>SAVE CHANGES</span>
+										<i class="icon-long-arrow-right"></i>
+									</button>
+								</form>
+							</div><!-- .End .tab-pane -->
+						</div>
+					</div><!-- End .col-lg-9 -->
+				</div><!-- End .row -->
+			</div><!-- End .container -->
+		</div><!-- End .dashboard -->
+	</div><!-- End .page-content -->
+</main><!-- End .main -->
+
+		{%endblock%}

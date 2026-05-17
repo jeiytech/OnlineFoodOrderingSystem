@@ -1,0 +1,231 @@
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('q');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Show/hide the ul based on the search query
+        if (filter.length > 0) {
+            ul.style.display = "block";
+        } else {
+            ul.style.display = "none";
+        }
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<footer class="footer footer-2">
+
+    <div class="footer-newsletter bg-image" style="background-image: url(../static/images/backgrounds/bg-2.jpg)">
+        <div class="container">
+            <div class="heading text-center">
+                <h3 class="title">Get The Latest Deals</h3><!-- End .title -->
+                <p class="title-desc">and receive <span>$20 coupon</span> for first shopping</p><!-- End .title-desc -->
+            </div><!-- End .heading -->
+
+            <div class="row">
+                <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+                    <form action="#">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Enter your Email Address" aria-label="Email Adress" aria-describedby="newsletter-btn" required>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit" id="newsletter-btn"><span>Subscribe</span><i class="icon-long-arrow-right"></i></button>
+                            </div><!-- .End .input-group-append -->
+                        </div><!-- .End .input-group -->
+                    </form>
+                </div><!-- End .col-sm-10 offset-sm-1 col-lg-6 offset-lg-3 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </div><!-- End .footer-newsletter bg-image -->
+
+    <div class="footer-middle">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-lg-6">
+                    <div class="widget widget-about">
+                        <img src="../static/images/demos/demo-2/logo.png" class="footer-logo" alt="Footer Logo" width="105" height="25">
+                        <p>With GoFood, customers can sit at home and enjoy their favorite meals without the hassle of going out.
+                            Our platform is available 24/7, making it easy to order food anytime, anywhere.
+                            Whether you're looking for a quick snack or a full meal, GoFood has got you covered.</p>
+                        
+                        <div class="widget-about-info">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-4">
+                                    <span class="widget-about-title">Got Question? Call us 24/7</span>
+                                    <a href="tel:123456789">+0123 456 789</a>
+                                </div><!-- End .col-sm-6 -->
+                                <div class="col-sm-6 col-md-8">
+                                    <span class="widget-about-title">Payment Method</span>
+                                    <figure class="footer-payments">
+                                        <img src="../static/images/payments.png" alt="Payment methods" width="272" height="20">
+                                    </figure><!-- End .footer-payments -->
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
+                        </div><!-- End .widget-about-info -->
+                    </div><!-- End .widget about-widget -->
+                </div><!-- End .col-sm-12 col-lg-3 -->
+
+                <div class="col-sm-4 col-lg-2">
+                    <div class="widget">
+                        <h4 class="widget-title">Information</h4><!-- End .widget-title -->
+
+                        <ul class="widget-list">
+                            <li>
+                                <a href="{{ url_for('food.about') }}" >About GoFood</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('food.contact') }}" >Contact Us</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('auth.login') }}" >Log in</a>
+                            </li>
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-4 col-lg-3 -->
+
+                <div class="col-sm-4 col-lg-2">
+                    <div class="widget">
+                        <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                        <ul class="widget-list">
+                            <li><a href="{{ url_for('food.privacy') }}">Terms and conditions</a></li>
+                            <li><a href="{{ url_for('food.privacy') }}">Privacy Policy</a></li>
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-4 col-lg-3 -->
+
+                <div class="col-sm-4 col-lg-2">
+                    <div class="widget">
+                        <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                        <ul class="widget-list">
+                            <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
+                            <li><a href="{{ url_for('user.cart') }}">View Cart</a></li>
+                            <li><a href="{{ url_for('user.dashboard') }}">Track My Order</a></li>
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-64 col-lg-3 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </div><!-- End .footer-middle -->
+
+    <div class="footer-bottom">
+        <div class="container">
+            <p class="footer-copyright">Copyright © 2023 GoFood. All Rights Reserved.</p><!-- End .footer-copyright -->
+            <ul class="footer-menu">
+                <li><a href="{{ url_for('food.privacy') }}">Terms of use</a></li>
+                <li><a href="{{ url_for('food.privacy') }}">Privacy Policy</a></li>
+            </ul><!-- End .footer-menu -->
+
+            <div class="social-icons social-icons-color">
+                <span class="social-label">Social Media</span>
+                <a href="#" class="social-icon social-facebook" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon social-twitter" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon social-instagram" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon social-youtube" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
+                <a href="#" class="social-icon social-pinterest" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+            </div><!-- End .soial-icons -->
+        </div><!-- End .container -->
+    </div><!-- End .footer-bottom -->
+</footer><!-- End .footer -->
+</div><!-- End .page-wrapper -->
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+<div class="mobile-menu-container mobile-menu-light">
+<div class="mobile-menu-wrapper">
+    <span class="mobile-menu-close"><i class="icon-close"></i></span>
+    
+    <form action="#" method="get" class="mobile-search">
+        <label for="mobile-search" class="sr-only">Search</label>
+        <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search menu ..." required>
+        <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+    </form>
+
+    <ul class="nav nav-pills-mobile nav-border-anim" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="mobile-menu-link" data-toggle="tab" href="#mobile-menu-tab" role="tab" aria-controls="mobile-menu-tab" aria-selected="true">Menu</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="mobile-cats-link" data-toggle="tab" href="#mobile-cats-tab" role="tab" aria-controls="mobile-cats-tab" aria-selected="false">Categories</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="mobile-menu-tab" role="tabpanel" aria-labelledby="mobile-menu-link">
+            <nav class="mobile-nav">
+                <ul class="mobile-menu">
+                    <li>
+						<a href="{{ url_for('food.index') }}">Home</a>
+					</li>
+					<li>
+						<a href="{{ url_for('food.category') }}" >Menu</a>
+					</li>
+					<li>
+						<a href="{{ url_for('food.about') }}" >About</a>
+					</li>
+					<li>
+						<a href="{{ url_for('food.contact') }}" >Contact</a>
+					</li>
+                </ul>
+            </nav><!-- End .mobile-nav -->
+        </div><!-- .End .tab-pane -->
+        <div class="tab-pane fade" id="mobile-cats-tab" role="tabpanel" aria-labelledby="mobile-cats-link">
+            <nav class="mobile-cats-nav">
+                <ul class="mobile-cats-menu">
+                    <li><a class="mobile-cats-lead" href="#">Daily offers</a></li>
+                    <li><a class="mobile-cats-lead" href="#">Gift Ideas</a></li>
+                    {%for item in data1 %}
+                    <li><a href="#">{{ item[0] }}</a></li>
+                    {% endfor %}
+                </ul><!-- End .mobile-cats-menu -->
+            </nav><!-- End .mobile-cats-nav -->
+        </div><!-- .End .tab-pane -->
+    </div><!-- End .tab-content -->
+
+    <div class="social-icons">
+        <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+        <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+        <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+        <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+    </div><!-- End .social-icons -->
+</div><!-- End .mobile-menu-wrapper -->
+</div><!-- End .mobile-menu-container -->
+
+</div><!-- End .mobile-menu-overlay -->
+
+<!-- Plugins JS File -->
+<script src="../static/js/jquery.min.js"></script>
+<script src="../static/js/bootstrap.bundle.min.js"></script>
+<script src="../static/js/jquery.hoverIntent.min.js"></script>
+<script src="../static/js/jquery.waypoints.min.js"></script>
+<script src="../static/js/superfish.min.js"></script>
+<script src="../static/js/owl.carousel.min.js"></script>
+<script src="../static/js/jquery.plugin.min.js"></script>
+<script src="../static/js/jquery.magnific-popup.min.js"></script>
+<script src="../static/js/jquery.countdown.min.js"></script>
+<script src="../static/js/bundle.js?ver=3.1.2"></script>
+<script src="../static/js/scripts.js?ver=3.1.2"></script>
+<script src="../static/js/apps/inbox.js?ver=3.1.2"></script>
+<script src="../static/js/libs/tagify.js?ver=3.1.2"></script>
+<!-- Main JS File -->
+<script src="../static/js/main.js"></script>
+<script src="../static/js/demos/demo-2.js"></script>
+</body>
+
+
+<!-- molla/index-1  22 Nov 2019 09:55:32 GMT -->

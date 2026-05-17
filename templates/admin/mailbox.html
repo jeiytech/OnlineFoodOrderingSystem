@@ -1,0 +1,136 @@
+{%extends 'base-admin.html'%}
+{%block content%}
+                <!-- main header @e -->
+                <!-- content @s -->
+                <div class="nk-content">
+                    <div class="container-fluid">
+                        <div class="container-flash">
+                            {% for message in get_flashed_messages() %}
+                                <div class="modal-body" data-toggle="modal" tabindex="-1">      
+                                    <div class="p-3 mb-2 bg-success text-white" id="flash">
+                                        {{ message }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-ibx">
+                                    <div class="container-fluid">
+                                        <div class="nk-ibx-head">
+                                            <div class="nk-ibx-head-actions">
+                                                <div class="nk-ibx-head-check">
+                                                    <div class="custom-control custom-control-sm custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input nk-dt-item-check" id="conversionAll">
+                                                        <label class="custom-control-label" for="conversionAll"></label>
+                                                    </div>
+                                                </div>
+                                                <ul class="nk-ibx-head-tools g-1">
+                                                    <li><a href="{{ url_for('admin.refresh') }}" class="btn btn-icon btn-trigger"><em class="icon ni ni-undo"></em></a></li>
+                                                    <li class="d-none d-sm-block"><a href="#" class="btn btn-icon btn-trigger"><em class="icon ni ni-trash"></em></a></li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <ul class="nk-ibx-head-tools g-1">
+                                                    <li><a href="#" class="btn btn-trigger btn-icon search-toggle toggle-search" data-target="search"><em class="icon ni ni-search"></em></a></li>
+                                                    <li class="me-n1 d-lg-none"><a href="#" class="btn btn-trigger btn-icon toggle" data-target="inbox-aside"><em class="icon ni ni-menu-alt-r"></em></a></li>
+                                                </ul>
+                                            </div>
+                                                <div class="search-content">
+                                                    <div class="form-control-wrap">
+                                                        <div class="form-icon form-icon-right">
+                                                            <em class="icon ni ni-search"></em>
+                                                        </div>
+                                                        <input type="text" class="form-control" id="default-04" placeholder="Search by name">
+                                                    </div>
+                                                </div>
+                                        </div><!-- .nk-ibx-head -->
+                                        <div class="nk-ibx-view">
+                                            <div class="nk-ibx-reply nk-reply" data-simplebar>
+                                                <div class="nk-ibx-reply-head">
+                                                    <div>
+                                                        <h4 class="title">Introducing New Dashboard</h4>
+                                                        <ul class="nk-ibx-tags g-1">
+                                                            <li class="btn-group is-tags">
+                                                                <a class="btn btn-xs btn-primary btn-dim" href="#">Business</a>
+                                                                <a class="btn btn-xs btn-icon btn-primary btn-dim" href="#"><em class="icon ni ni-cross"></em></a>
+                                                            </li>
+                                                            <li class="btn-group is-tags">
+                                                                <a class="btn btn-xs btn-danger btn-dim" href="#">Management</a>
+                                                                <a class="btn btn-xs btn-icon btn-danger btn-dim" href="#"><em class="icon ni ni-cross"></em></a>
+                                                            </li>
+                                                            <li class="btn-group is-tags">
+                                                                <a class="btn btn-xs btn-info btn-dim" href="#">Team</a>
+                                                                <a class="btn btn-xs btn-icon btn-info btn-dim" href="#"><em class="icon ni ni-cross"></em></a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                {% if messages%}
+                                                <div class="nk-ibx-reply-group">
+                                                    {% for message in messages %}
+                                                    <div class="nk-ibx-reply-item nk-reply-item">
+                                                        <div class="nk-reply-header nk-ibx-reply-header">
+                                                            <div class="nk-ibx-head-check">
+                                                                <div class="custom-control custom-control-sm custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input nk-dt-item-check" name="checkmail" value="{{ message['id'] }}" id="conversion{{ message['id'] }}">
+                                                                    <label class="custom-control-label" for="conversion{{ message['id'] }}"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="nk-reply-desc">
+                                                                <div class="nk-reply-avatar user-avatar bg-blue">
+                                                                    <div class="user-avatar bg-primary">
+                                                                    <span>{{message['name'][0]}}</span>
+                                                                </div>
+                                                                </div>
+                                                                <div class="nk-reply-info">
+                                                                    <div class="nk-ibx-context-badges"><span class="badge bg-primary">{{ message['message_type']}}</span></div>
+                                                                    <div class="nk-reply-author lead-text">{{message['name']}}</div>
+                                                                    <div class="dropdown nk-reply-msg-info">
+                                                                        <a href="#" class="dropdown-toggle sub-text dropdown-indicator" data-bs-toggle="dropdown">to Me</a>
+                                                                        
+                                                                        <div class="dropdown-menu dropdown-menu-md">
+                                                                            <ul class="nk-reply-msg-meta">
+                                                                                <li><span class="label">from:</span> <span class="info"><a href="#">info@softnio.com</a></span></li>
+                                                                                <li><span class="label">to:</span> <span class="info"><a href="#">team@softnio.com</a></span></li>
+                                                                                <li><span class="label">bcc:</span> <span class="info"><a href="#">team@softnio.com</a></span></li>
+                                                                                <li><span class="label">mailed-by:</span> <span class="info"><a href="#">softnio.com</a></span></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="nk-reply-msg-excerpt">It would be great if you send me itiam ut neque in magna porttitor...</div>
+                                                                </div>
+                                                            </div>
+                                                            <ul class="nk-reply-tools g-1">
+                                                                <li>Time Sent: <span>{{ message['date']}}</span></li>&nbsp;&nbsp;
+                                                                <li><a class="dropdown-item" href="{{ url_for('admin.deleteMail', id=message['id']) }}"><em class="icon ni ni-trash" title="Delete"></em></a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="nk-reply-body nk-ibx-reply-body is-shown">
+                                                            <div class="nk-reply-entry entry">
+                                                                <p>Subject: {{ message['subject']}}</p>
+                                                                <p>{{ message['message']}}</p>
+                                                                <p>Thank you <br> Ishityak</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- .nk-reply-item -->
+                                                    {% endfor %}
+                                                </div>
+                                                {% else %}
+                                                <h4 style="padding: 30px;">No mails in yet</h4>
+                                                {% endif %}
+                                            </div><!-- .nk-reply -->
+                                        </div>
+                                    </div><!-- .nk-ibx-body -->
+                                </div><!-- .nk-ibx -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content @e -->
+            </div>
+            <!-- wrap @e -->
+        </div>
+        <!-- main @e -->
+    {% endblock %}

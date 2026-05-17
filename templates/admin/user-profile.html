@@ -1,0 +1,164 @@
+{%extends 'base-admin.html'%}
+{%block content%}
+                <!-- main header @e -->
+                <!-- content @s -->
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block">
+                                    <div class="card">
+                                        <div class="card-aside-wrap">
+                                            <div class="card-inner card-inner-lg">
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active" id="personal">
+                                                        <div class="nk-block-head nk-block-head-lg">
+                                                            <div class="nk-block-between">
+                                                                <div class="nk-block-head-content">
+                                                                    <h4 class="nk-block-title">Personal Information</h4>
+                                                                    <div class="nk-block-des">
+                                                                        <p>Basic info</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="nk-block-head-content align-self-start d-lg-none">
+                                                                    <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside"><em class="icon ni ni-menu-alt-r"></em></a>
+                                                                </div>
+                                                            </div>
+                                                        </div><!-- .nk-block-head -->
+                                                        <div class="nk-block">
+                                                            <div class="nk-data data-list">
+                                                                <div class="data-head">
+                                                                    <h6 class="overline-title">Basics</h6>
+                                                                </div>
+                                                                <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit">
+                                                                    <div class="data-col">
+                                                                        {%if g.user['usertype'] == 1%}
+                                                                        <span class="data-label">Restaurant Name</span>
+                                                                        <span class="data-value">{{ data['restaurant_name']}}</span>
+                                                                        {% elif g.user['usertype'] == 2 %}
+                                                                        <span class="data-label">Role</span>
+                                                                        <span class="data-value">Admin</span>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                                                                </div><!-- data-item -->
+                                                                <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit">
+                                                                    <div class="data-col">
+                                                                        <span class="data-label">Display Name</span>
+                                                                        <span class="data-value">{{ data['username']}}</span>
+                                                                    </div>
+                                                                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                                                                </div><!-- data-item -->
+                                                                <div class="data-item">
+                                                                    <div class="data-col">
+                                                                        <span class="data-label">Email</span>
+                                                                        <span class="data-value">{{ data['email']}}</span>
+                                                                    </div>
+                                                                    <div class="data-col data-col-end"><span class="data-more disable"><em class="icon ni ni-lock-alt"></em></span></div>
+                                                                </div><!-- data-item -->
+                                                            </div><!-- data-list -->
+                                                        </div><!-- .nk-block -->
+                                                    </div><!-- .tab-pane -->
+                                                </div><!-- .tab-content -->
+                                            </div>
+                                            <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg" data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
+                                                <div class="card-inner-group" data-simplebar>
+                                                    <div class="card-inner">
+                                                        <div class="user-card">
+                                                            <div class="user-avatar bg-primary">
+                                                                {%if g.user['usertype'] == 1%}
+                                                                <span>{{ data['restaurant_name'][0]}}</span>
+                                                                {% elif g.user['usertype'] == 2 %}
+                                                                <span>Ad</span>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="user-info">
+                                                                {%if g.user['usertype'] == 1%}
+                                                                <span class="lead-text">{{ data['restaurant_name']}}</span>
+                                                                {% elif g.user['usertype'] == 2 %}
+                                                                <span class="lead-text">Admin</span>
+                                                                {% endif %}
+                                                                <span class="sub-text">{{ data['email'] }}</span>
+                                                            </div>
+                                                        </div><!-- .user-card -->
+                                                    </div><!-- .card-inner -->
+                                                    <div class="card-inner">
+                                                        <div class="user-account-info py-0">
+                                                            <h6 class="overline-title-alt">Last Login</h6>
+                                                            <p>{{last_login}}</p>
+                                                            <span id="time-logged-in"></span>
+                                                            <h6 class="overline-title-alt">Host Name</h6>
+                                                            <p>{{hostname}}</p>
+                                                            <h6 class="overline-title-alt">Login IP</h6>
+                                                            <p>{{ip_address}}</p>
+                                                        </div>
+                                                    </div><!-- .card-inner -->
+                                                    <div class="card-inner p-0">
+                                                        <ul class="link-list-menu nav nav-tabs">
+                                                            <li><a data-bs-toggle="tab" class="active"><em class="icon ni ni-user-fill-c"></em><span>Personal Infomation</span></a></li>
+                                                            {%if g.user['usertype'] == 2%}
+                                                            <li><a  href="{{ url_for('admin.customers') }}"><em class="icon ni ni-users-fill"></em><span>Users</span></a></li>
+                                                            <li><a  href="{{ url_for('admin.restaurants') }}"><em class="icon ni ni-users-fill"></em><span>Restaurants</span></a></li>
+                                                            <li><a  href="{{ url_for('admin.products') }}"><em class="icon ni ni-users-fill"></em><span>Dishes</span></a></li>
+                                                            {%endif%}
+                                                            <li><a  href="{{ url_for('admin.orders') }}"><em class="icon ni ni-users-fill"></em><span>Orders</span></a></li>
+                                                        </ul>
+                                                    </div><!-- .card-inner -->
+                                                </div><!-- .card-inner-group -->
+                                            </div><!-- card-aside -->
+                                        </div><!-- .card-aside-wrap -->
+                                    </div><!-- .card -->
+                                </div><!-- .nk-block -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content @e -->
+                <!-- footer @s -->
+                <div class="nk-footer">
+                    <div class="container-fluid">
+                        <div class="nk-footer-wrap">
+                            <div class="nk-footer-copyright"> &copy; 2023 GoFood
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- footer @e -->
+            </div>
+            <!-- wrap @e -->
+        </div>
+        <!-- main @e -->
+        <script>
+            // Get the current time when the page loads
+            var startTime = new Date().getTime();
+            
+            // Update the time stayed logged in every second
+            setInterval(function() {
+                // Get the current time
+                var currentTime = new Date().getTime();
+                
+                // Calculate the time difference in seconds
+                var timeDiff = Math.floor((currentTime - startTime) / 1000);
+                
+                // Calculate the hours, minutes, and seconds
+                var hours = Math.floor(timeDiff / 3600);
+                var minutes = Math.floor((timeDiff % 3600) / 60);
+                var seconds = timeDiff % 60;
+                
+                // Format the time string
+                var timeString = '';
+                if (hours > 0) {
+                    timeString += hours + 'h ';
+                }
+                if (minutes > 0 || hours > 0) {
+                    timeString += minutes + 'm ';
+                }
+                timeString += seconds + 's';
+                
+                // Update the <span> element with the time stayed logged in
+                document.getElementById('time-logged-in').textContent = timeString;
+            }, 1000);
+        </script>
+        
+
+        {%endblock%}

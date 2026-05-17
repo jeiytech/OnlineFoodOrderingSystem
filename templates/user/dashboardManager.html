@@ -1,0 +1,268 @@
+{%extends 'base.html'%}
+{%block content%}
+
+<div class="header-bottom sticky-header">
+	<div class="container">
+		<div class="header-left">
+			<div class="dropdown category-dropdown">
+				<a href="#" class="dropdown-toggle" title="Dashboard">
+					Dashboard
+				</a>
+			</div><!-- End .category-dropdown -->
+		</div><!-- End .header-left -->
+
+		<div class="header-center">
+			<nav class="main-nav">
+				<ul class="menu sf-arrows">
+					<li>
+                        <a href="{{ url_for('food.index') }}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.category') }}" >Menu</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.about') }}" >About</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.contact') }}" >Contact</a>
+                    </li>
+			</nav><!-- End .main-nav -->
+		</div><!-- End .header-center -->
+
+		<div class="header-right">
+			<i class="la la-lightbulb-o"></i><p>Clearance<span class="highlight">&nbsp;Up to 30% Off</span></p>
+		</div>
+	</div><!-- End .container -->
+</div><!-- End .header-bottom -->
+</header><!-- End .header -->
+        <main class="main">
+        	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">{{g.user['restaurant_name']}}<span>Manage</span></h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('food.index') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="dashboard">
+	                <div class="container">
+	                	<div class="row">
+	                		<aside class="col-md-2 col-lg-2">
+	                			<ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+								    <li class="nav-item">
+								        <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">Dashboard</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-reservations-link" data-toggle="tab" href="#tab-reservations" role="tab" aria-controls="tab-reservations" aria-selected="false">Reservations</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-menu-link" data-toggle="tab" href="#tab-menu" role="tab" aria-controls="tab-menu" aria-selected="false">Dishes</a>
+								    </li>
+									<li class="nav-item">
+										<a class="nav-link" id="tab-add-menu-link" data-toggle="tab" href="#tab-add-menu" role="tab" aria-controls="tab-add-menu" aria-selected="false">Add Dishes</a>
+									</li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Account Details</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" href="{{ url_for('auth.logout') }}">Sign Out</a>
+								    </li>
+								</ul>
+	                		</aside><!-- End .col-lg-3 -->
+
+	                		<div class="col-md-8 col-lg-10">
+	                			<div class="tab-content">
+								    <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
+								    	<p>Hello <span class="font-weight-normal text-dark">{{g.user['username']}}</span> (not <span class="font-weight-normal text-dark">{{g.user['username']}}</span>? <a href="{{ url_for('auth.logout') }}">Log out</a>) 
+								    	<br>
+								    	From your account dashboard you can view your <a href="#tab-orders" class="tab-trigger-link link-underline">recent orders</a>, manage your <a href="#tab-menu" class="tab-trigger-link">shipping and billing addresses</a>, and <a href="#tab-account" class="tab-trigger-link">edit your password and account details</a>.</p>
+
+										<form method="POST" enctype="multipart/form-data" action="{{ url_for('user.resData') }}">
+											<label for="image">Upload image:</label>
+											<input type="file" class="form-control" name="image" id="image">
+											<small class="form-text">This will be will be displayed as your restaurants' home page image</small>
+  
+											<label for="video">Upload video:</label>
+											<input type="file" class="form-control" name="video" id="video">
+											<small class="form-text">This will be will be displayed as your restaurants' home page video</small>
+
+											<label for="description">Description:</label>
+											<textarea class="form-control" id="description" name="description" required></textarea>
+											<br>
+
+											<label for="add-info">Additional Information:</label>
+											<textarea class="form-control" id="add-info" name="add-info" required></textarea>
+											<br>
+
+											<label for="terms">Delivery and Reservations Terms and Conditions:</label>
+											<textarea class="form-control" id="terms" name="terms" required></textarea>
+											<br>
+  
+											<button type="submit" class="btn btn-outline-primary-2">
+											  <span>UPLOAD</span>
+											  <i class="icon-long-arrow-right"></i>
+										  </button>
+									  </form>
+								    </div><!-- .End .tab-pane -->
+									  
+
+								    <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
+								    	<p>No order has been made yet.</p>
+								    	<a href="category" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
+								    </div><!-- .End .tab-pane -->
+
+								    <div class="tab-pane fade" id="tab-reservations" role="tabpanel" aria-labelledby="tab-reservations-link">
+								    	<p>No Reservations for today yet.</p>
+										<table class="table table-wishlist table-mobile">
+                                            <thead>
+                                                <tr>
+                                                    <th>Full Name</th>
+                                                    <th>Phone Number</th>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>Party Size</th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+												{% for row in cat %}
+                                                <tr>
+													<td class="product-col">{{ row['full_name'] }}</td>
+													<td class="price-col">{{ row['number'] }}</td>
+													<td class="stock-col">{{ row['date'] }}</td>
+													<td class="action-col">{{ row['time'] }}</td>
+													<td class="stock-col">{{ row['party_size'] }}</td>
+													<td class="remove-col"><a href="{{ url_for('user.deleteRes', id=row['id']) }}" class="btn btn-outline-danger" title="Cancel Reservation">Cancel</a></td>
+                                                </tr>
+												{% endfor %}
+                                            </tbody>
+                                        </table><!-- End .table table-wishlist -->
+								    </div><!-- .End .tab-pane -->
+
+								    <div class="tab-pane fade" id="tab-menu" role="tabpanel" aria-labelledby="tab-menu-link">
+								    	<p>The following dishes will be displayed on your business page by default.</p>
+                                        <table class="table table-wishlist table-mobile">
+                                            <thead>
+                                                <tr>
+													<th>Image</th>          
+													<th>Dish Title</th>                                      
+                                                    <th>Cuisine Type</th>
+                                                    <th>Price</th>
+                                                    <th>Dietary Preference</th>
+													<th></th>
+													<th></th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+												{% for row in data %}
+                                                <tr>
+													<td class="stock-col"><img src="{{ url_for('static', filename='images/data-images/' + row['image']) }}" alt="Product image"></td>
+													<td class="stock-col">{{ row['dish_name'] }}</td>
+                                                    <td class="product-col">{{ row['cuisine_type'] }}</td>
+                                                    <td class="product-col">&#8358;{{ row['price'] }}</td>
+                                                    <td class="price-col">{{ row['dietary_preference'] }}</td>
+													<td class="product-col"><a href="{{ url_for('user.deleteDish', id=row['id']) }}" class="btn btn-danger">Delete</a></td>
+                                                </tr>
+												{% endfor %}
+                                            </tbody>
+                                        </table><!-- End .table table-wishlist -->
+
+								    </div><!-- .End .tab-pane -->
+
+									<div class="tab-pane fade" id="tab-add-menu" role="tabpanel" aria-labelledby="tab-add-menu-link">
+										<p>The following dishes will be displayed on your business page by default.</p>
+										<form method="POST" action="{{ url_for('user.add_dish') }}" enctype="multipart/form-data">
+											<label for="dish-name">Dish name:</label>
+											<input class="form-control" type="text" id="dish-name" name="dish_name" required>
+											<br>
+										  
+											<label for="cuisine-type">Cuisine type:</label>
+											<select class="form-control" id="cuisine-type" name="cuisine_type" required>
+												<option value="">-- Select a cuisine type --</option>
+												{%for item in category %}
+												<option>{{ item[0] }}</option>
+												{% endfor %}
+											</select>
+											<br>
+										  
+											<label for="description">Description:</label>
+											<textarea class="form-control" id="description" name="description" required></textarea>
+											<br>
+										  
+											<label for="price">Price:</label>
+											<input class="form-control" type="number" id="price" name="price" required>
+											<br>
+										  
+											<div class="row">
+												<div class="col-sm-6">
+													<label for="image">Image:</label>
+													<input class="form-control" type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
+												</div>
+												<div class="col-sm-6">
+													<img id="image-preview" style="max-width: 200px; max-height: 200px;">
+												</div>
+											</div>
+										  
+											<label for="dietary-preference">Dietary preference:</label>
+											<div class="form-control">
+											<input type="radio" id="vegan" name="dietary_preference" value="vegan" required>
+											<label for="vegan">Vegan</label>&nbsp;&nbsp;&nbsp;
+											<input type="radio" id="non-vegan" name="dietary_preference" value="non-vegan">
+											<label for="non-vegan">Non-Vegan</label>
+											</div>
+											<br>
+										  
+											<button type="submit" class="btn btn-outline-primary-2">
+												<span>ADD DISH</span>
+			            						<i class="icon-long-arrow-right"></i>
+											</button>
+										  </form>
+										  
+		
+									</div><!-- .End .tab-pane -->
+
+								    <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
+								    	<form action="{{ url_for('user.update_user_profile') }}" method="POST">
+
+		            						<label>Display Name *</label>
+		            						<input type="text" class="form-control" name="display_name" required>
+		            						<small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
+                                            
+		                					<label>Email address *</label>
+		        							<input type="email" class="form-control" name="email" required>
+                                    
+		            						<label>Current password (leave blank to leave unchanged)</label>
+		            						<input type="password" name="current_password" class="form-control">
+
+		            						<label>New password (leave blank to leave unchanged)</label>
+		            						<input type="password" name="new_password" class="form-control">
+
+		            						<label>Confirm new password</label>
+		            						<input type="password" name="confirm_password" class="form-control mb-2">
+
+		                					<button type="submit" class="btn btn-outline-primary-2">
+			                					<span>SAVE CHANGES</span>
+			            						<i class="icon-long-arrow-right"></i>
+			                				</button>
+			                			</form>
+								    </div><!-- .End .tab-pane -->
+								</div>
+	                		</div><!-- End .col-lg-9 -->
+	                	</div><!-- End .row -->
+	                </div><!-- End .container -->
+                </div><!-- End .dashboard -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+		{%endblock%}

@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- creativeWears/index-1.html  22 Nov 2019 09:55:06 GMT -->
+<head>
+    <base href="../../">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>GoFood </title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="creativeWears ">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/images/icons/favicon-16x16.png">
+    <link rel="webmanifest" href="../static/images/icons/site.html">
+    <link rel="mask-icon" href="../static/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="../static/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="creativeWears">
+    <meta name="application-name" content="creativeWears">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="../static/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="../static/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="../static/css/plugins/magnific-popup/magnific-popup.css">
+    <link rel="stylesheet" href="../static/css/plugins/jquery.countdown.css">
+    <link rel="stylesheet" href="../static/css/dashlite.css?ver=3.1.2">
+    <link rel="stylesheet" href="../static/css/theme.css?ver=3.1.2">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/skins/skin-demo-2.css">
+    <link rel="stylesheet" href="../static/css/demos/demo-2.css">
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+    <script src="../static/vendor/jquery/jquery-migrate.min.js"></script>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <header class="header header-2 header-intro-clearance">
+            <div class="header-top">
+                <div class="container">
+
+                    <div class="header-right">
+                        {% if g.user%}
+                        <a href="{{ url_for('auth.register') }}">Sign up</a>&nbsp;&nbsp;&nbsp;
+                        <a href="{{ url_for('auth.logout') }}">Log Out</a>
+                        {% else %}
+                        <a href="{{ url_for('auth.login') }}">Sign in</a>&nbsp;&nbsp;&nbsp;
+                        <a href="{{ url_for('auth.loginBusiness') }}">Sign in(Business)</a>&nbsp;&nbsp;&nbsp;
+                        <a href="{{ url_for('auth.register') }}">Sign up</a>
+                        {% endif %}
+                    </div><!-- End .header-right -->
+
+                </div><!-- End .container -->
+            </div><!-- End .header-top -->
+
+            <div class="header-middle">
+                <div class="container">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggler">
+                            <span class="sr-only">Toggle mobile menu</span>
+                            <i class="icon-bars"></i>
+                        </button>
+                        
+                        <a href="{{ url_for('food.index') }}" class="logo">
+                            <img src="../static/images/demos/demo-2/logo.png" alt="creativeWears Logo" width="105" height="25">
+                        </a>
+                    </div><!-- End .header-left -->
+
+                    <div class="header-center">
+                        <div class="header-search header-search-extended header-search-visible header-search-no-radius d-none d-lg-block">
+                            <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                            <form action="#">
+                                <div class="header-search-wrapper search-wrapper-wide">
+                                    <label for="q" class="sr-only">Search</label>
+                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search menu ..." required>
+                                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                                </div><!-- End .header-search-wrapper -->
+                            </form>
+                        </div><!-- End .header-search -->
+                    </div>
+
+                    <div class="header-right">
+                        {% if g.user['usertype'] == 0%}
+                        <div class="account">
+                            <a href="{{ url_for('user.dashboard') }}" title="My account">
+                                <div class="icon">
+                                    <i class="icon-user"></i>
+                                </div>
+                                {% if g.user%}
+                                <p>{{g.user['username']}}</p>
+                                {% else %}
+                                <p>Account</p>
+                                {% endif %}
+                            </a>
+                        </div><!-- End .compare-dropdown -->
+
+                        <div class="dropdown cart-dropdown">
+                            <a href="{{ url_for('user.cart') }}" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <div class="icon">
+                                    <i class="icon-shopping-cart"></i>
+                                    <span class="cart-count">{{ cart|length }}</span>
+                                </div>
+                                <p>Cart</p>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <div class="container-flash">
+                                    {% for message in get_flashed_messages() %}
+                                        <div class="modal-body" data-toggle="modal" tabindex="-1">      
+                                            <div class="p-3 mb-2 bg-success text-white" id="flash">
+                                                {{ message }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if cart %}
+                                <div class="dropdown-cart-products">
+                                    {% for row in cart %}
+                                    <div class="product">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title">
+                                                <a href="product">{{ row['title'] }}</a>
+                                            </h4>
+
+                                            <span class="cart-product-info">
+                                                <span class="cart-product-qty">1</span>
+                                                x {{ row['price'] }}
+                                            </span>
+                                        </div><!-- End .product-cart-details -->
+
+                                        <figure class="product-image-container">
+                                            <a href="product" class="product-image">
+                                                <img src="{{ url_for('static', filename='images/data-images/' + row['image']) }}" alt="product">
+                                            </a>
+                                        </figure>
+                                        <a href="{{ url_for('user.deleteCart', id=row['id'], title=row['title']) }}" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                    </div><!-- End .product -->
+                                    {% endfor %}
+                                </div><!-- End .cart-product -->
+                                {% else %}
+										<p>You have no item in the cart yet.</p>
+								{% endif %}
+
+                                <div class="dropdown-cart-action">
+                                    <a href="{{ url_for('user.cart') }}" class="btn btn-primary">View Cart</a>
+                                </div><!-- End .dropdown-cart-total -->
+                            </div><!-- End .dropdown-menu -->
+                        </div><!-- End .cart-dropdown -->
+
+                        {% elif g.user['usertype'] == 1%}
+                        <div class="account">
+                            <a href="{{ url_for('user.dashboardManager') }}" title="My account">
+                                <div class="icon">
+                                    <i class="icon-user"></i>
+                                </div>
+                                {% if g.user%}
+                                <p>{{g.user['username']}}</p>
+                                {% else %}
+                                <p>Account</p>
+                                {% endif %}
+                            </a>
+                        </div><!-- End .compare-dropdown -->
+                        <div class="dropdown cart-dropdown">
+                            <a href="{{ url_for('admin.mailbox') }}" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <div class="icon">
+                                    <i class="icon ni ni-bell"></i>
+                                    <span class="cart-count">0</span>
+                                </div>
+                                <p>Notifications</p>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                            <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                                                <div class="user-card">
+                                                    <div class="user-avatar">
+                                                        {% if g.user%}
+                                                        <span>{{ g.user['username'][0] }}</span>
+                                                        {% else %}
+                                                        <span>u</span>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="user-info">
+                                                        {% if g.user%}
+                                                        <span class="lead-text">{{g.user['username']}}</span>
+                                                        <span class="sub-text">{{g.user['email']}}</span>
+                                                        {% else %}
+                                                        <span class="lead-text">unknown</span>
+                                                        <span class="sub-text">unknown</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-inner">
+                                                <ul class="link-list">
+                                                    <li><a href="{{ url_for('admin.mailbox') }}"><em class="icon ni ni-inbox"></em><span>Mailbox</span></a></li>
+                                                    <li><a href="{{ url_for('admin.userprofile') }}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="dropdown-inner">
+                                                <ul class="link-list">
+                                                    <li><a href="{{ url_for('auth.logout') }}"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                        </div><!-- End .cart-dropdown -->
+                        {% elif g.user['usertype'] == 2%}
+                        <div class="account">
+                            <a href="{{ url_for('user.dashboardAdmin') }}" title="My account">
+                                <div class="icon">
+                                    <i class="icon-user"></i>
+                                </div>
+                                {% if g.user%}
+                                <p>{{g.user['username']}}</p>
+                                {% else %}
+                                <p>Account</p>
+                                {% endif %}
+                            </a>
+                        </div><!-- End .compare-dropdown -->
+
+                        <div class="dropdown cart-dropdown">
+                            <a href="{{ url_for('admin.mailbox') }}" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <div class="icon">
+                                    <i class="icon ni ni-bell"></i>
+                                    <span class="cart-count">0</span>
+                                </div>
+                                <p>Notifications</p>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                            <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                                                <div class="user-card">
+                                                    <div class="user-avatar">
+                                                        {% if g.user%}
+                                                        <span>{{ g.user['username'][0] }}</span>
+                                                        {% else %}
+                                                        <span>u</span>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="user-info">
+                                                        {% if g.user%}
+                                                        <span class="lead-text">{{g.user['username']}}</span>
+                                                        <span class="sub-text">{{g.user['email']}}</span>
+                                                        {% else %}
+                                                        <span class="lead-text">unknown</span>
+                                                        <span class="sub-text">unknown</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-inner">
+                                                <ul class="link-list">
+                                                    <li><a href="{{ url_for('admin.mailbox') }}"><em class="icon ni ni-inbox"></em><span>Mailbox</span></a></li>
+                                                    <li><a href="{{ url_for('admin.userprofile') }}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="dropdown-inner">
+                                                <ul class="link-list">
+                                                    <li><a href="{{ url_for('auth.logout') }}"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                        </div><!-- End .cart-dropdown -->
+                        {% else %}
+                        <div class="account">
+                            <a href="{{ url_for('user.dashboard') }}" title="My account">
+                                <div class="icon">
+                                    <i class="icon-user"></i>
+                                </div>
+                                {% if g.user%}
+                                <p>{{g.user['username']}}</p>
+                                {% else %}
+                                <p>Account</p>
+                                {% endif %}
+                            </a>
+                        </div><!-- End .compare-dropdown -->
+
+                        <div class="dropdown cart-dropdown">
+                            <a href="{{ url_for('user.cart') }}" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <div class="icon">
+                                    <i class="icon-shopping-cart"></i>
+                                    <span class="cart-count">0</span>
+                                </div>
+                                <p>Cart</p>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-cart-products">
+
+                                </div><!-- End .dropdown-cart-total -->
+
+                                <div class="dropdown-cart-action">
+                                    <a href="{{ url_for('user.cart') }}" class="btn btn-primary">View Cart</a>
+                                    <a href="{{ url_for('user.checkout') }}" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                </div><!-- End .dropdown-cart-total -->
+                            </div><!-- End .dropdown-menu -->
+                        </div><!-- End .cart-dropdown -->
+
+                        {% endif %}
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-middle -->
+            <!-- Modal HTML -->
+
+            
+
+<div class="header-bottom sticky-header">
+    <div class="container">
+        <div class="header-left">
+            <div class="dropdown category-dropdown">
+                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Browse Categories">
+                    Oh, favourite indeed!
+                </a>
+            </div><!-- End .category-dropdown -->
+        </div><!-- End .header-left -->
+
+        <div class="header-center">
+            <nav class="main-nav">
+                <ul class="menu sf-arrows">
+                    <li>
+                        <a href="{{ url_for('food.index') }}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.category') }}" >Menu</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.about') }}" >About</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.contact') }}" >Contact</a>
+                    </li>
+            </nav><!-- End .main-nav -->
+        </div><!-- End .header-center -->
+
+        
+    </div><!-- End .container -->
+</div><!-- End .header-bottom -->
+</header><!-- End .header -->
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+                <div class="container d-flex align-items-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('food.index') }}">Home</a></li>
+                        <li class="breadcrumb-item active"><a href="#">{{ restaurant['restaurant_name'] }}</a></li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+                <div class="container">
+                    <div class="container-flash">
+                        {% for message in get_flashed_messages() %}
+                            <div class="modal-body" data-toggle="modal" tabindex="-1">      
+                                <div class="p-3 mb-2 bg-success text-white" id="flash">
+                                    {{ message }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="product-details-top">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                    <div class="row">
+                                        <figure class="product-main-image">
+                                            <img id="product-zoom" src="{{ url_for('static', filename='images/data-restaurants/' + detail['image']) }}" data-zoom-image="static/images/products/single/1-big.jpg" alt="product image">
+
+                                            <a href="#" id="btn-product-gallery" class="btn-product-gallery">
+                                                <i class="icon-arrows"></i>
+                                            </a>
+                                        </figure><!-- End .product-main-image -->
+
+                                    </div><!-- End .row -->
+
+                            </div><!-- End .col-md-6 -->
+
+                            <div class="col-md-6">
+                                <div class="product-details">
+                                    <div class="row">
+                                        <figure class="product-main-image">
+                                            <video class="col-md-6" controls style="max-width: 100%; max-height: 100%;">
+                                                <source src="{{ url_for('static', filename='images/data-restaurants/' + detail['video']) }}">
+
+                                            <a href="#" id="btn-product-gallery" class="btn-product-gallery">
+                                                <i class="icon-arrows"></i>
+                                            </a>
+                                        </video>
+                                        </figure><!-- End .product-main-image -->
+
+                                    </div><!-- End .row -->
+                                </div><!-- End .product-details -->
+                                <div class="ratings-container">
+                                        <form method="POST" action="{{ url_for('user.rateRes', id=detail['res_id']) }}">
+                                            {% for i in range (1, 6) %}
+                                                <label>
+                                                    <input type="radio" name="rating" value="{{ i }}" required/>
+                                                    <span title="{{ i }} star(s)" class="star">&#9733;</span>
+                                                </label>
+                                            {% endfor %}
+                                            <input type="Submit" class="form-control" value="Add Rating">
+                                        </form>
+                                        <a class="ratings-text" href="#product-review-link" id="review-link">( {{ restaurant['reviews']}} Reviews )</a>
+                                    </div><!-- End .rating-container -->
+                            </div><!-- End .col-md-6 -->
+                        </div><!-- End .row -->
+                    </div>
+
+                    <div class="product-details-tab">
+                        <ul class="nav nav-pills justify-content-center" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="product-desc-link" data-toggle="tab" href="#product-desc-tab" role="tab" aria-controls="product-desc-tab" aria-selected="true">Description</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="product-info-link" data-toggle="tab" href="#product-info-tab" role="tab" aria-controls="product-info-tab" aria-selected="false">Additional information</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="product-shipping-link" data-toggle="tab" href="#product-shipping-tab" role="tab" aria-controls="product-shipping-tab" aria-selected="false">Shipping & Returns</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">Reviews (2)</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel" aria-labelledby="product-desc-link">
+                                <div class="product-desc-content">
+                                    {{ detail['description'] }}
+                                </div><!-- End .product-desc-content -->
+                            </div><!-- .End .tab-pane -->
+                            <div class="tab-pane fade" id="product-info-tab" role="tabpanel" aria-labelledby="product-info-link">
+                                <div class="product-desc-content">
+                                    {{ detail['add_info'] }}
+                                </div><!-- End .product-desc-content -->
+                            </div><!-- .End .tab-pane -->
+                            <div class="tab-pane fade" id="product-shipping-tab" role="tabpanel" aria-labelledby="product-shipping-link">
+                                <div class="product-desc-content">
+                                    {{ detail['terms'] }}
+                                </div><!-- End .product-desc-content -->
+                            </div><!-- .End .tab-pane -->
+                            <div class="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
+                                <div class="reviews">
+                                    <h3>Reviews (2)</h3>
+                                    <div class="review">
+                                        <div class="row no-gutters">
+                                            <div class="col-auto">
+                                                <h4><a href="#">Samanta J.</a></h4>
+                                                <div class="ratings-container">
+                                                    <div class="ratings">
+                                                        <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                                    </div><!-- End .ratings -->
+                                                </div><!-- End .rating-container -->
+                                                <span class="review-date">6 days ago</span>
+                                            </div><!-- End .col -->
+                                            <div class="col">
+                                                <h4>Good, perfect size</h4>
+
+                                                <div class="review-content">
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus cum dolores assumenda asperiores facilis porro reprehenderit animi culpa atque blanditiis commodi perspiciatis doloremque, possimus, explicabo, autem fugit beatae quae voluptas!</p>
+                                                </div><!-- End .review-content -->
+
+                                                <div class="review-action">
+                                                    <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
+                                                    <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
+                                                </div><!-- End .review-action -->
+                                            </div><!-- End .col-auto -->
+                                        </div><!-- End .row -->
+                                    </div><!-- End .review -->
+
+                                    <div class="review">
+                                        <div class="row no-gutters">
+                                            <div class="col-auto">
+                                                <h4><a href="#">John Doe</a></h4>
+                                                <div class="ratings-container">
+                                                    <div class="ratings">
+                                                        <div class="ratings-val" style="width: 100%;"></div><!-- End .ratings-val -->
+                                                    </div><!-- End .ratings -->
+                                                </div><!-- End .rating-container -->
+                                                <span class="review-date">5 days ago</span>
+                                            </div><!-- End .col -->
+                                            <div class="col">
+                                                <h4>Very good</h4>
+
+                                                <div class="review-content">
+                                                    <p>Sed, molestias, tempore? Ex dolor esse iure hic veniam laborum blanditiis laudantium iste amet. Cum non voluptate eos enim, ab cumque nam, modi, quas iure illum repellendus, blanditiis perspiciatis beatae!</p>
+                                                </div><!-- End .review-content -->
+
+                                                <div class="review-action">
+                                                    <a href="#"><i class="icon-thumbs-up"></i>Helpful (0)</a>
+                                                    <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
+                                                </div><!-- End .review-action -->
+                                            </div><!-- End .col-auto -->
+                                        </div><!-- End .row -->
+                                    </div><!-- End .review -->
+                                </div><!-- End .reviews -->
+                            </div><!-- .End .tab-pane -->
+                        </div><!-- End .tab-content -->
+                    </div><!-- End .product-details-tab -->
+
+                    <h2 class="title text-center mb-4">Dishes From {{ restaurant['restaurant_name'] }}</h2><!-- End .title text-center -->
+
+                    <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                        data-owl-options='{
+                            "nav": false, 
+                            "dots": true,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":1
+                                },
+                                "480": {
+                                    "items":2
+                                },
+                                "768": {
+                                    "items":3
+                                },
+                                "992": {
+                                    "items":4
+                                },
+                                "1200": {
+                                    "items":4,
+                                    "nav": true,
+                                    "dots": false
+                                }
+                            }
+                        }'>
+                        {% for row in dishes %}
+                        <div class="product product-7 text-center">
+                            <figure class="product-media">
+                                <span class="product-label label-new">New</span>
+                                <a href="{{ url_for('food.viewMenu', id=row['id']) }}">
+                                    <img src="{{ url_for('static', filename='images/data-images/' + row['image']) }}" alt="Product image" class="product-image">
+                                </a>
+
+                                <div class="product-action">
+                                    <a href="{{ url_for('user.addCart', id=row['id']) }}" class="btn-product btn-cart"><span>Add to Cart</span></a>
+                                </div><!-- End .product-action -->
+                            </figure><!-- End .product-media -->
+
+                            <div class="product-body">
+                                <div class="product-cat">
+                                    <a href="#">{{ row['cuisine_type'] }}</a>
+                                </div><!-- End .product-cat -->
+                                <h3 class="product-title">{{ row['dish_name'] }}</h3><!-- End .product-title -->
+                                <div class="product-price">
+                                   &#8358; {{ row['price'] }}
+                                </div><!-- End .product-price -->
+                                <div class="ratings-container">
+                                    {% if row['rating'] != 0%}
+                                        {% for i in range (1, 6) %}
+                                            {% if i <= row['rating'] / row['reviews'] %}
+                                                <span title="{{ i }} star(s)" class="stars">&#9733;</span>
+                                            {% else %}
+                                                <span title="{{ i }} star(s)" class="stars">&#9734;</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                    {% for i in range (1, 6) %}
+                                        <span title="{{ i }} star(s)" class="star">&#9733;</span>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <span class="ratings-text">( {{ row['reviews']}} Reviews )</span>
+                                </div><!-- End .rating-container -->
+                            </div><!-- End .product-body -->
+                        </div><!-- End .product -->
+                        {% endfor %}
+                    </div><!-- End .owl-carousel -->
+                </div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        <footer class="footer footer-2">
+
+            <div class="touch-container row justify-content-center">
+                <div class="col-md-9 col-lg-7">
+                    <div class="text-center">
+                    <h2 class="title mb-1">Get In Touch With {{ restaurant['restaurant_name'] }}</h2><!-- End .title mb-2 -->
+                    <p class="lead text-primary">
+                        We collaborate with ambitious brands and people; we’d love to build something great together.
+                    </p><!-- End .lead text-primary -->
+                    <p class="mb-3">Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.</p>
+                    </div><!-- End .text-center -->
+
+                    <form action="{{ url_for('email.submit_contact_restaurant') }}" method="POST" class="contact-form mb-2">
+                        <input type="hidden" class="form-control" id="receipient_id" name="receipient_id" value="{{ restaurant['id'] }}" required>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="cname" class="sr-only">Name</label>
+                                <input type="text" class="form-control" id="cname" name="cname" placeholder="Name *" required>
+                            </div><!-- End .col-sm-4 -->
+
+                            <div class="col-sm-4">
+                                <label for="cemail" class="sr-only">Email</label>
+                                <input type="email" class="form-control" id="cemail" name="cemail" placeholder="Email *" required>
+                            </div><!-- End .col-sm-4 -->
+
+                            <div class="col-sm-4">
+                                <label for="cphone" class="sr-only">Phone</label>
+                                <input type="tel" class="form-control" id="cphone" name="cphone" placeholder="Phone" required>
+                            </div><!-- End .col-sm-4 -->
+                        </div><!-- End .row -->
+
+                        <div class="row">
+                            <div class="col-sm-8">
+                            <label for="csubject" class="sr-only">Subject</label>
+                            <input type="text" class="form-control" id="csubject" name="csubject" placeholder="Subject" required>
+                            </div><!-- End .col-sm-6 -->
+
+                            <div class="col-sm-4">
+                                <label for="cpoint" class="sr-only">Message Infomation</label>
+                                <select class="form-control" id="cpoint" name="cpoint" placeholder="Message Info" required>
+                                    <option value="feedback">Feedback</option>
+                                    <option value="personal">Personal</option>
+                                    <option value="inquiry">Inquiry</option>
+                                    <option value="complaint">Complaint</option>
+                                </select>
+                                
+                            </div><!-- End .col-sm-6 -->
+                        </div>
+
+                        <label for="cmessage" class="sr-only">Message</label>
+                        <textarea class="form-control" cols="30" rows="4" id="cmessage" name="cmessage" required placeholder="Message *"></textarea>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-outline-primary-2 btn-minwidth-sm">
+                                <span>SUBMIT</span>
+                                <i class="icon-long-arrow-right"></i>
+                            </button>
+                        </div><!-- End .text-center -->
+                    </form><!-- End .contact-form -->
+                </div><!-- End .col-md-9 col-lg-7 -->
+            </div><!-- End .row -->
+        
+            <div class="footer-middle">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="widget widget-about">
+                                <img src="../static/images/demos/demo-2/logo.png" class="footer-logo" alt="Footer Logo" width="105" height="25">
+                                <p>Our platform is available 24/7, making it easy to order food anytime, anywhere. </p>
+                                
+                                <div class="widget-about-info">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-4">
+                                            <span class="widget-about-title">Got Question? Call us 24/7</span>
+                                            <a href="tel:123456789">+0123 456 789</a>
+                                        </div><!-- End .col-sm-6 -->
+                                        <div class="col-sm-6 col-md-8">
+                                            <span class="widget-about-title">Payment Method</span>
+                                            <figure class="footer-payments">
+                                                <img src="../static/images/payments.png" alt="Payment methods" width="272" height="20">
+                                            </figure><!-- End .footer-payments -->
+                                        </div><!-- End .col-sm-6 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .widget-about-info -->
+                            </div><!-- End .widget about-widget -->
+                        </div><!-- End .col-sm-12 col-lg-3 -->
+        
+                        <div class="col-sm-4 col-lg-2">
+                            <div class="widget">
+                                <h4 class="widget-title">Information</h4><!-- End .widget-title -->
+        
+                                <ul class="widget-list">
+                                    <li>
+                                        <a href="{{ url_for('food.about') }}" >About GoFood</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url_for('food.contact') }}" >Contact Us</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url_for('auth.login') }}" >Log in</a>
+                                    </li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-4 col-lg-3 -->
+        
+                        <div class="col-sm-4 col-lg-2">
+                            <div class="widget">
+                                <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+        
+                                <ul class="widget-list">
+                                    <li><a href="{{ url_for('food.privacy') }}">Terms and conditions</a></li>
+                                    <li><a href="{{ url_for('food.privacy') }}">Privacy Policy</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-4 col-lg-3 -->
+        
+                        <div class="col-sm-4 col-lg-2">
+                            <div class="widget">
+                                <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+        
+                                <ul class="widget-list">
+                                    <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
+                                    <li><a href="{{ url_for('user.cart') }}">View Cart</a></li>
+                                    <li><a href="{{ url_for('user.wishlist') }}">My Wishlist</a></li>
+                                    <li><a href="{{ url_for('user.dashboard') }}">Track My Order</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-64 col-lg-3 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .footer-middle -->
+        
+            <div class="footer-bottom">
+                <div class="container">
+                    <p class="footer-copyright">Copyright © 2023 GoFood. All Rights Reserved.</p><!-- End .footer-copyright -->
+                    <ul class="footer-menu">
+                        <li><a href="{{ url_for('food.privacy') }}">Terms Of Use</a></li>
+                        <li><a href="{{ url_for('food.privacy') }}">Privacy Policy</a></li>
+                    </ul><!-- End .footer-menu -->
+        
+                    <div class="social-icons social-icons-color">
+                        <span class="social-label">Social Media</span>
+                        <a href="#" class="social-icon social-facebook" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                        <a href="#" class="social-icon social-twitter" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                        <a href="#" class="social-icon social-instagram" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                        <a href="#" class="social-icon social-youtube" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
+                        <a href="#" class="social-icon social-pinterest" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                    </div><!-- End .soial-icons -->
+                </div><!-- End .container -->
+            </div><!-- End .footer-bottom -->
+        </footer><!-- End .footer -->
+        </div><!-- End .page-wrapper -->
+        <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+        
+        <div class="mobile-menu-container mobile-menu-light">
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+            
+            <form action="#" method="get" class="mobile-search">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search restaurants ..." required>
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+            </form>
+        
+            <ul class="nav nav-pills-mobile nav-border-anim" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="mobile-menu-link" data-toggle="tab" href="#mobile-menu-tab" role="tab" aria-controls="mobile-menu-tab" aria-selected="true">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="mobile-cats-link" data-toggle="tab" href="#mobile-cats-tab" role="tab" aria-controls="mobile-cats-tab" aria-selected="false">Categories</a>
+                </li>
+            </ul>
+        
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="mobile-menu-tab" role="tabpanel" aria-labelledby="mobile-menu-link">
+                    <nav class="mobile-nav">
+                        <ul class="mobile-menu">
+                            <li>
+                                <a href="{{ url_for('food.index') }}">Home</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('food.category') }}" >Menu</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('food.about') }}" >About</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('food.contact') }}" >Contact</a>
+                            </li>
+                        </ul>
+                    </nav><!-- End .mobile-nav -->
+                </div><!-- .End .tab-pane -->
+                <div class="tab-pane fade" id="mobile-cats-tab" role="tabpanel" aria-labelledby="mobile-cats-link">
+                    <nav class="mobile-cats-nav">
+                        <ul class="mobile-cats-menu">
+                            <li><a class="mobile-cats-lead" href="#">Daily offers</a></li>
+                            <li><a class="mobile-cats-lead" href="#">Gift Ideas</a></li>
+                            {%for item in data1 %}
+                            <li><a href="#">{{ item[0] }}</a></li>
+                            {% endfor %}
+                        </ul><!-- End .mobile-cats-menu -->
+                    </nav><!-- End .mobile-cats-nav -->
+                </div><!-- .End .tab-pane -->
+            </div><!-- End .tab-content -->
+        
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
+        </div><!-- End .mobile-menu-container -->
+        
+        </div><!-- End .mobile-menu-overlay -->
+        
+        <!-- Plugins JS File -->
+        <script src="../static/js/jquery.min.js"></script>
+        <script src="../static/js/bootstrap.bundle.min.js"></script>
+        <script src="../static/js/jquery.hoverIntent.min.js"></script>
+        <script src="../static/js/jquery.waypoints.min.js"></script>
+        <script src="../static/js/superfish.min.js"></script>
+        <script src="../static/js/owl.carousel.min.js"></script>
+        <script src="../static/js/jquery.plugin.min.js"></script>
+        <script src="../static/js/jquery.magnific-popup.min.js"></script>
+        <script src="../static/js/jquery.countdown.min.js"></script>
+        <!-- Main JS File -->
+        <script src="../static/js/main.js"></script>
+        <script src="../static/js/demos/demo-2.js"></script>
+        </body>
+        
+        
+        <!-- molla/index-1  22 Nov 2019 09:55:32 GMT -->

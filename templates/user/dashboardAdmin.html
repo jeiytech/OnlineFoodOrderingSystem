@@ -1,0 +1,156 @@
+{%extends 'base.html'%}
+{%block content%}
+
+<div class="header-bottom sticky-header">
+	<div class="container">
+		<div class="header-left">
+			<div class="dropdown category-dropdown">
+				<a href="#" class="dropdown-toggle" title="Checkout">
+					Dashboard
+				</a>
+			</div><!-- End .category-dropdown -->
+		</div><!-- End .header-left -->
+
+		<div class="header-center">
+			<nav class="main-nav">
+				<ul class="menu sf-arrows">
+					<li>
+                        <a href="{{ url_for('food.index') }}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.category') }}" >Menu</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.about') }}" >About</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.contact') }}" >Contact</a>
+                    </li>
+			</nav><!-- End .main-nav -->
+		</div><!-- End .header-center -->
+
+		<div class="header-right">
+			<i class="la la-lightbulb-o"></i><p>Clearance<span class="highlight">&nbsp;Up to 30% Off</span></p>
+		</div>
+	</div><!-- End .container -->
+</div><!-- End .header-bottom -->
+</header><!-- End .header -->
+        <main class="main">
+        	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">{{g.user['username']}}<span>Super Admin</span></h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('food.index') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="dashboard">
+	                <div class="container">
+                        <div class="container-flash">
+                            {% for message in get_flashed_messages() %}
+                                <div class="modal-body" data-toggle="modal" tabindex="-1">      
+                                    <div class="p-3 mb-2 bg-success text-white" id="flash">
+                                        {{ message }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+	                	<div class="row">
+	                		<aside class="col-md-4 col-lg-2">
+	                			<ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+								    <li class="nav-item">
+								        <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">Dashboard</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-categories-link" data-toggle="tab" href="#tab-categories" role="tab" aria-controls="tab-categories" aria-selected="false">Category</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Account Details</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" href="{{ url_for('auth.logout') }}">Sign Out</a>
+								    </li>
+								</ul>
+	                		</aside><!-- End .col-lg-3 -->
+
+	                		<div class="col-md-8 col-lg-10">
+	                			<div class="tab-content">
+								    <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
+								    	<p>Hello <span class="font-weight-normal text-dark">{{g.user['username']}}</span> (not <span class="font-weight-normal text-dark">{{g.user['username']}}</span>? <a href="{{ url_for('auth.logout') }}">Log out</a>) 
+								    	<br>
+								    	From your account dashboard you can view your <a href="#tab-orders" class="tab-trigger-link link-underline">recent orders</a>, manage your <a href="#tab-menu" class="tab-trigger-link">shipping and billing addresses</a>, and <a href="#tab-account" class="tab-trigger-link">edit your password and account details</a>.</p>
+								    </div><!-- .End .tab-pane -->
+
+								    <div class="tab-pane fade" id="tab-categories" role="tabpanel" aria-labelledby="tab-categories-link">
+								    	<div class="nk-ibx-reply-head">
+                                            {% if category %}
+                                            <div>
+                                                <h4 class="title">Categories Available</h4>
+                                                <ul class="nk-ibx-tags g-1">
+                                                    {% for item in category %}
+                                                    <li class="btn-group is-tags">
+                                                        <a class="btn btn-xs btn-primary btn-dim">{{ item['category'] }}</a>
+                                                        <a class="btn btn-xs btn-icon btn-primary btn-dim" href="{{ url_for('admin.deleteCategory', id=item['id']) }}"><em class="icon ni ni-cross"></em></a>
+                                                    </li>
+                                                    {% endfor %}                                                 
+                                                </ul>
+                                                <h3 class="title">Add Category</h3>
+                                        <form method="POST" action="{{ url_for('admin.addCategory') }}">
+		
+											<label for="title">Name *</label>
+											<input type="text" class="form-control" id="title" name="title" required>
+											<small class="form-text">Name of Category</small>
+							
+											<button type="submit" class="btn btn-outline-primary-2">
+												<span>ADD Category</span>
+												<i class="icon-long-arrow-right"></i>
+											</button>
+										</form>
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <p>No Category yet</p>
+                                        {% endif %}
+								    </div><!-- .End .tab-pane -->
+
+								    <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
+								    	<form action="{{ url_for('user.update_user_profile') }}" method="POST">
+
+		            						<label>Display Name *</label>
+		            						<input type="text" class="form-control" name="display_name" required>
+		            						<small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
+                                            
+		                					<label>Email address *</label>
+		        							<input type="email" class="form-control" name="email" required>
+                                    
+		            						<label>Current password (leave blank to leave unchanged)</label>
+		            						<input type="password" name="current_password" class="form-control">
+
+		            						<label>New password (leave blank to leave unchanged)</label>
+		            						<input type="password" name="new_password" class="form-control">
+
+		            						<label>Confirm new password</label>
+		            						<input type="password" name="confirm_password" class="form-control mb-2">
+
+		                					<button type="submit" class="btn btn-outline-primary-2">
+			                					<span>SAVE CHANGES</span>
+			            						<i class="icon-long-arrow-right"></i>
+			                				</button>
+			                			</form>
+								    </div><!-- .End .tab-pane -->
+								</div>
+	                		</div><!-- End .col-lg-9 -->
+	                	</div><!-- End .row -->
+	                </div><!-- End .container -->
+                </div><!-- End .dashboard -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+		{%endblock%}

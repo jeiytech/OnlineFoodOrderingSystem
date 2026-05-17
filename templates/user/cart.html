@@ -1,0 +1,282 @@
+{%extends 'base.html'%}
+{%block content%}
+
+<div class="header-bottom sticky-header">
+	<div class="container">
+		<div class="header-left">
+			<div class="dropdown category-dropdown">
+				<a href="#" class="dropdown-toggle" title="Checkout">
+					Cart
+				</a>
+			</div><!-- End .category-dropdown -->
+		</div><!-- End .header-left -->
+
+		<div class="header-center">
+			<nav class="main-nav">
+				<ul class="menu sf-arrows">
+					<li>
+                        <a href="{{ url_for('food.index') }}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.category') }}" >Menu</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.about') }}" >About</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.contact') }}" >Contact</a>
+                    </li>
+			</nav><!-- End .main-nav -->
+		</div><!-- End .header-center -->
+
+		<div class="header-right">
+			<i class="la la-lightbulb-o"></i><p>Clearance<span class="highlight">&nbsp;Up to 30% Off</span></p>
+		</div>
+	</div><!-- End .container -->
+</div><!-- End .header-bottom -->
+</header><!-- End .header -->
+        <main class="main">
+        	<div class="page-header text-center" style="background-image: url('static/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">Shopping Cart<span>Shop</span></h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('food.index') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="category">Menu</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="cart">
+	                <div class="container">
+	                	<div class="row">
+								<div class="col-lg-9">
+									<form method="POST" action="{{ url_for('user.update_cart') }}">
+										<div class="container-flash">
+											{% for message in get_flashed_messages() %}
+												<div class="modal-body" data-toggle="modal" tabindex="-1">      
+													<div class="p-3 mb-2 bg-success text-white" id="flash">
+														{{ message }}
+														<button title="Close (Esc)" type="button" class="mfp-close"><span>×</span></button>
+													</div>
+												</div>
+											{% endfor %}
+										</div>
+										{% if data %}
+										<table class="table table-cart table-mobile">
+											<thead>
+												<tr>
+													<th>Dish</th>
+													<th>Price</th>
+													<th>Quantity</th>
+													<th>Total</th>
+													<th></th>
+												</tr>
+											</thead>
+
+											<tbody>
+												{% for row in data %}
+												<tr>
+													<td class="product-col">
+														<div class="product-title">
+															<figure class="product-media">
+																<a href="#">
+																	<img src="{{ url_for('static', filename='images/data-images/' + row['image']) }}" alt="Product image">
+																</a>
+															</figure>
+
+															<h3 class="product-title">
+																<a href="#">{{ row['title'] }}</a>
+															</h3><!-- End .product-title -->
+														</div><!-- End .product -->
+													</td>
+													<td class="price-col">&#8358; <span class="price">{{ row['price'] }}</span></td>
+													<td class="quantity-col">
+														<div class="cart-product-quantity">
+															<input type="number" class="qty quantity form-control" value="{{ row['quantity'] }}" id="quantity" name="quantity_{{ row['id'] }}" min="1" max="50" step="1" data-decimals="0" required>
+														</div><!-- End .cart-product-quantity -->
+													</td>
+													<td class="price-col">&#8358; <input class="total form-control" id="total_price" name="total_{{ row['id'] }}" value="{{ row['total'] }}" readonly></td>
+													<td class="remove-col"><a href="{{ url_for('user.deleteCart', id=row['id'], title=row['title']) }}" class="btn-remove" title="Remove"><i class="icon-close"></i></a></td>
+
+												</tr>
+												{% endfor %}
+											</tbody>
+										</table><!-- End .table table-wishlist -->
+										{% else %}
+												<p>You have no item in the cart yet.</p>
+												<a href="category" class="btn btn-outline-primary-2"><span>Check Out Menu</span><i class="icon-long-arrow-right"></i></a>
+												{% endif %}
+
+										<div class="cart-bottom">
+											<div class="cart-discount">
+												<form action="#">
+													<div class="input-group">
+														<input type="text" class="form-control" placeholder="coupon code">
+														<div class="input-group-append">
+															<button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
+														</div><!-- .End .input-group-append -->
+													</div><!-- End .input-group -->
+												</form>
+											</div><!-- End .cart-discount -->
+											<button type="submit" class="btn btn-outline-dark-2" value="Update"><span>UPDATE CART</span><i class="icon-refresh"></i></button>
+										</div><!-- End .cart-bottom -->
+									</form>
+								</div><!-- End .col-lg-9 -->
+	                		<aside class="col-lg-3">
+								<form method="POST" action="{{ url_for('user.proceed_to_checkout') }}">
+									<div class="summary summary-cart">
+										<h3 class="summary-title">Cart Total</h3><!-- End .summary-title -->
+
+										<table class="table table-summary">
+											<tbody>
+												<tr class="summary-subtotal">
+													<td>Subtotal:</td>
+													<td>&#8358; <input class="subtotal form-control" name="subtotal" readonly></td>
+												</tr><!-- End .summary-subtotal -->
+												<tr class="summary-shipping">
+													<td>Delivery:</td>
+													<td></td>
+												</tr>
+
+												<tr class="summary-shipping-row">
+													<td>
+														<div class="custom-control custom-radio">
+															<input type="radio" id="free-shipping" value="0.00" name="delivery" class="custom-control-input" required>
+															<label class="custom-control-label" for="free-shipping">Free Delivery</label>
+														</div><!-- End .custom-control -->
+													</td>
+													<td>&#8358; 0.00</td>
+												</tr><!-- End .summary-shipping-row -->
+
+												<tr class="summary-shipping-row">
+													<td>
+														<div class="custom-control custom-radio">
+															<input type="radio" id="standard-shipping" value="500.00" name="delivery" class="custom-control-input" required>
+															<label class="custom-control-label" for="standard-shipping">Distance > 1km:</label>
+														</div><!-- End .custom-control -->
+													</td>
+													<td>&#8358; 500.00</td>
+												</tr><!-- End .summary-shipping-row -->
+
+												<tr class="summary-shipping-row">
+													<td>
+														<div class="custom-control custom-radio">
+															<input type="radio" id="express-shipping" value="1000.00" name="delivery" class="custom-control-input" required>
+															<label class="custom-control-label" for="express-shipping">Distance > 2km:</label>
+														</div><!-- End .custom-control -->
+													</td>
+													<td>&#8358; 1000.00</td>
+												</tr><!-- End .summary-shipping-row -->
+
+												<tr class="summary-total">
+													<td>Total:</td>
+													<td>&#8358; <input class="s_total form-control" name="total" readonly></td>
+												</tr><!-- End .summary-total -->
+											</tbody>
+										</table><!-- End .table table-summary -->
+
+										<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</button>
+									</div><!-- End .summary -->
+								</form>
+		            			<a href="category" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i></a>
+	                		</aside><!-- End .col-lg-3 -->
+	                	</div><!-- End .row -->
+	                </div><!-- End .container -->
+                </div><!-- End .cart -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+		<script>
+			$(document).ready(function() {
+				// Loop through each input field with the class 'quantity'
+				$('.quantity').each(function() {
+					// Get the current row of the input field
+					var row = $(this).closest('tr');
+				
+					// Get the price and quantity values
+					var priceString = row.find('.price').text().replace(/[^\d.-]/g, '');
+					var price = parseFloat(priceString);
+					var quantity = parseInt($(this).val());
+				
+					// Check if the price is a valid number
+					if (isNaN(price)) {
+					console.log("Price is not a number");
+					return;
+					}
+				
+					// Calculate the total price
+					var total = price * quantity;
+				
+					// Update the total price column
+					row.find('.total').val(total.toFixed(2));
+
+					// Calculate the subtotal
+					var subtotal = 0.00;
+					$('.total').each(function() {
+					  subtotal += parseFloat($(this).val().replace(/[^\d.-]/g, ''));
+					});
+					$('.subtotal').val(subtotal.toFixed(2));
+				
+					// Trigger the change event on the input field
+					$(this).trigger('change');
+				});
+				  
+
+				// Add event listener to quantity input field
+				$('.qty').on('change', function() {
+				  // Get the current row of the input field
+				  var row = $(this).closest('tr');
+			  
+				  // Get the price and quantity values
+				  var priceString = row.find('.price').text().replace(/[^\d.-]/g, '');
+				  var price = parseFloat(priceString);
+				  var quantity = parseInt($(this).val());
+			  
+				  // Check if the price is a valid number
+				  if (isNaN(price)) {
+					console.log("Price is not a number");
+					return;
+				  }
+			  
+				  // Calculate the total price
+				  var total = price * quantity;
+			  
+				  // Update the total price column
+				  row.find('.total').val(total.toFixed(2));
+			  
+				  // Calculate the subtotal
+				  var subtotal = 0.00;
+				  $('.total').each(function() {
+					subtotal += parseFloat($(this).val().replace(/[^\d.-]/g, ''));
+				  });
+				  $('.subtotal').val(subtotal.toFixed(2));
+				});
+
+				// Get the subtotal element and the radio button elements
+				const subtotalElem = document.querySelector('.subtotal');
+				const radioButtons = document.querySelectorAll('input[name="delivery"]');
+
+				// Add event listener to each radio button
+				radioButtons.forEach(button => {
+				button.addEventListener('change', () => {
+					updateTotal(); // Call a function to update the total based on the selected delivery option
+				});
+				});
+
+				function updateTotal() {
+					const subtotal = parseFloat(document.querySelector('.subtotal').value);
+					const deliveryFee = parseFloat(document.querySelector('input[name="delivery"]:checked').value);
+					const total = subtotal + deliveryFee;
+				  
+					$('.s_total').val(total.toFixed(2));
+				  }
+			  });
+							
+			</script>
+			
+		{%endblock%}

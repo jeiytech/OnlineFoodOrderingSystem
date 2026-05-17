@@ -1,0 +1,165 @@
+{%extends 'base.html'%}
+{%block content%}
+
+<div class="header-bottom sticky-header">
+	<div class="container">
+		<div class="header-left">
+			<div class="dropdown category-dropdown">
+				<a href="#" class="dropdown-toggle" title="Checkout">
+					Checkout
+				</a>
+			</div><!-- End .category-dropdown -->
+		</div><!-- End .header-left -->
+
+		<div class="header-center">
+			<nav class="main-nav">
+				<ul class="menu sf-arrows">
+					<li>
+                        <a href="{{ url_for('food.index') }}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.category') }}" >Menu</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.about') }}" >About</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.contact') }}" >Contact</a>
+                    </li>
+			</nav><!-- End .main-nav -->
+		</div><!-- End .header-center -->
+
+		<div class="header-right">
+			<i class="la la-lightbulb-o"></i><p>Clearance<span class="highlight">&nbsp;Up to 30% Off</span></p>
+		</div>
+	</div><!-- End .container -->
+</div><!-- End .header-bottom -->
+</header><!-- End .header -->
+
+        <main class="main">
+        	<div class="page-header text-center" style="background-image: url('static/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">Checkout<span>Shop</span></h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('food.index') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="category">Shop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="checkout">
+	                <div class="container">
+            			<div class="checkout-discount">
+            				<form action="#">
+        						<input type="text" class="form-control" id="checkout-discount-input">
+            					<label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click here to enter your code</span></label>
+            				</form>
+            			</div><!-- End .checkout-discount -->
+            			<form action="{{ url_for('orders.make_order') }}" method="POST">
+		                	<div class="row">
+		                		<div class="col-lg-6">
+		                			<h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
+
+										<label>Full Name *</label>
+										<input type="text" class="form-control" name="fullname" required>
+
+	            						<label>Street address *</label>
+	            						<input type="text" class="form-control" name="address" placeholder="House number and Street name(Optional: Appartments, suite, unit etc ...)" required>
+
+										<label>Phone Number*</label>
+										<input type="tel" class="form-control" name="phone" required>
+
+	                					<label>Order notes (optional)</label>
+	        							<textarea class="form-control" cols="30" rows="4" name="notes" placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
+		                		</div><!-- End .col-lg-9 -->
+		                		<aside class="col-lg-6">
+		                			<div class="summary">
+		                				<h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+										{% if cart %}
+		                				<table class="table table-summary">
+		                					<thead>
+		                						<tr class="item-row">
+		                							<th>Dish</th>
+													<th style="text-align: center;">Quantity</th>
+													<th style="text-align: center;">Price</th>
+		                							<th>Total in &#8358;</th>
+		                						</tr>
+		                					</thead>
+
+		                					<tbody>
+												{% for item in cart %}
+		                						<tr class ="item-row">
+													<input type="hidden" name="res_id" value="{{ item['res_id'] }}"/>
+		                							<td>{{ item['title'] }}</td>
+													<td style="text-align: center;"><input class="quantity form-control" name="quantity" value="{{ item['quantity'] }}"/></td>
+													<td style="text-align: center;"><input class="price form-control" name="price" value="{{ item['price'] }}"/></td>
+		                							<td><input class="total form-control" value="{{ item['total'] }}"/></td>
+		                						</tr>
+												{% endfor %}
+		                						<tr class="summary-subtotal">
+		                							<td>Subtotal:</td>
+													<td style="text-align: center;"></span></td>
+	                							<td>&#8358; <span class="subtotal">{{subtotal}}</span></td>
+		                						</tr><!-- End .summary-subtotal -->
+		                						<tr>
+		                							<td>Delivery fee:</td>
+													<td style="text-align: center;"></span></td>
+		                							<td>&#8358; <input class="form-control" value="{{ delivery }}" name="delivery" id="delivery-option" readonly/>
+													</td>
+		                						</tr>
+		                						<tr class="summary-total">
+		                							<td>Total:</td>
+													<td style="text-align: center;"></span></td>
+		                							<td>&#8358; <input class="form-control" value="{{total}}" name="total" id="total-amount"/ readonly></td>
+		                						</tr><!-- End .summary-total -->
+		                					</tbody>
+		                				</table><!-- End .table table-summary -->
+										{% else %}
+											<p>You have no item in the cart yet.</p>
+											<a href="category" class="btn btn-outline-primary-2"><span>Check Out Menu</span><i class="icon-long-arrow-right"></i></a>
+										{% endif %}
+
+										<div class="form-group">
+
+											<input type="radio" id="directtransfer" value="directtransfer" name="payment_method" required style="display: flex;">
+											<label for="directtransfer">Direct bank transfer</label>
+										
+											<input type="radio" id="creditcard" value="creditcard" name="payment_method" required style="display: flex;">
+											<label for="creditcard">Credit Card(Visa, MasterCard etc.)</label>
+										
+											<input type="radio" id="ondelivery" value="ondelivery" name="payment_method" required style="display: flex;">
+											<label for="ondelivery">Cash on delivery</label>
+										
+											<input type="radio" id="paypal" value="paypal" name="payment_method" required style="display: flex;">
+											<label for="paypal">PayPal</label>
+										
+										</div>
+										
+
+		                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">PLACE ORDER</button>
+		                			</div><!-- End .summary -->
+		                		</aside><!-- End .col-lg-3 -->
+		                	</div><!-- End .row -->
+            			</form>
+	                </div><!-- End .container -->
+                </div><!-- End .checkout -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+		<script>
+			$(document).ready(function() {
+
+
+
+			});
+		</script>
+		  
+		  
+
+
+        {%endblock%}

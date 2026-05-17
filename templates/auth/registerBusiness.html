@@ -1,0 +1,123 @@
+{%extends 'base.html'%}
+{%block content%}
+<div class="header-bottom sticky-header">
+	<div class="container">
+		<div class="header-left">
+			<div class="dropdown category-dropdown">
+				<a href="#" class="dropdown-toggle" title="Checkout">
+					Become a Seller
+				</a>
+			</div><!-- End .category-dropdown -->
+		</div><!-- End .header-left -->
+
+		<div class="header-center">
+			<nav class="main-nav">
+				<ul class="menu sf-arrows">
+					<li>
+                        <a href="{{ url_for('food.index') }}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.category') }}" >Menu</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.about') }}" >About</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.contact') }}" >Contact</a>
+                    </li>
+			</nav><!-- End .main-nav -->
+		</div><!-- End .header-center -->
+
+		<div class="header-right">
+			<i class="la la-lightbulb-o"></i><p>Clearance<span class="highlight">&nbsp;Up to 30% Off</span></p>
+		</div>
+	</div><!-- End .container -->
+</div><!-- End .header-bottom -->
+</header><!-- End .header -->
+
+<!-- Sign in / Register Modal -->
+<div class="container">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="icon-close"></i></span>
+                </button>
+
+                    <div class="form-tab">
+                        <ul class="nav nav-pills nav-fill" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" href="auth.business">Sign In <h6>for business</h6></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="auth.registerBusiness">Register <h6>for business</h6></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="tab-content-5">
+                            <div class="tab-pane fade show active" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                <div class="container-flash">
+                                    {% for message in get_flashed_messages() %}
+                                        <div class="modal-body" data-toggle="modal" tabindex="-1">      
+                                            <div class="p-3 mb-2 bg-danger text-white" id="flash">
+                                                {{ message }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <form method="POST" action="{{ url_for('auth.registerBusiness') }}">
+
+                                <div class="row">
+                                    <div class="col-lg-7">
+                                    <div class="form-group">
+                                        <h4>Open a Business Account on Our Website</h4>
+                                        <p>Are you interested in selling products on our website? Opening a seller account is quick and easy. Follow the steps below to get started:</p>
+                                        <h5>Step 1: Register as a User</h5>
+                                        <p>If you haven't already, you will need to register as a user on our website. This will give you access to your account dashboard and allow you to manage your products.</p>
+                                        <h5>Step 2: Apply for a Resturant/Hotel Account</h5>
+                                        <p>Once you have registered as a user, you can apply for a seller account by filling out our seller application form. This will require you to provide information about your business, such as your company name, address, and tax identification number.</p>
+                                        <h5>Step 3: Verification</h5>
+                                        <p>After you submit your Resturant/Hotel application, our team will review your information to ensure that you meet our seller requirements. We may ask for additional documentation, such as a business license or tax ID certificate, to verify your business.</p>
+                                        <h5>Step 4: Set Up Your Store</h5>
+                                        <p>Once you are approved as a Resturant/Hotel, you can set up your store on our website. You can add product listings, set prices, and manage your inventory from your account dashboard. You will also be able to view your sales and earnings reports.</p>
+                                        <h5>Start Selling!</h4>
+                                        <p>Now that you have opened a Resturant/Hotel account on our website, you can start selling your products to our customers. We look forward to working with you!</p>
+                                    </div><!-- End .form-group -->
+                                </div>
+
+                                <div class="col-lg-5">
+                                    <div class="form-group">
+                                        <label for="confirm-email">Official email address *</label>
+                                        <input type="email" class="form-control" id="confirm-email" name="confirm-email" required>
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-group">
+                                        <label for="confirm-res">Name of Restaurant/Hotel *</label>
+                                        <input type="text" class="form-control" id="confirm-res" name="confirm-res" required>
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-group">
+                                        <label for="register-name">Username *</label>
+                                        <input type="text" class="form-control" id="register-name" name="register-name" required>
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-group">
+                                        <label for="register-password">Password *</label>
+                                        <input type="password" class="form-control" id="register-password" name="register-password" required>
+                                    </div><!-- End .form-group -->
+    
+                                    <div class="form-footer">
+                                        <button type="submit" class="btn btn-outline-primary-2" value="Register">
+                                            <span>SIGN UP</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+    
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="register-policy" required>
+                                            <label class="custom-control-label" for="register-policy">I agree to the <a href="privacy">privacy policy</a> *</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .form-footer -->
+                                </div>
+                                </div>
+                                </form>
+                            </div><!-- .End .tab-pane -->
+                        </div><!-- End .tab-content -->
+                    </div><!-- End .form-tab -->
+    </div><!-- End .modal -->
+    {%endblock%}

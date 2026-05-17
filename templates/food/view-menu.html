@@ -1,0 +1,227 @@
+{%extends 'base.html'%}
+{%block content%}            
+
+<div class="header-bottom sticky-header">
+    <div class="container">
+        <div class="header-left">
+            <div class="dropdown category-dropdown">
+                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Browse Categories">
+                    All these yummies!
+                </a>
+
+                <div class="dropdown-menu">
+                    <nav class="side-nav">
+                        <ul class="menu-vertical sf-arrows">
+                            <li class="item-lead"><a href="#">Daily offers</a></li>
+                            <li class="item-lead"><a href="#">Gift Ideas</a></li>
+                            <li><a href="#">Beds</a></li>
+                            <li><a href="#">Lighting</a></li>
+                            <li><a href="#">Sofas & Sleeper sofas</a></li>
+                            <li><a href="#">Storage</a></li>
+                            <li><a href="#">Armchairs & Chaises</a></li>
+                            <li><a href="#">Decoration </a></li>
+                            <li><a href="#">Kitchen Cabinets</a></li>
+                            <li><a href="#">Coffee & Tables</a></li>
+                            <li><a href="#">Outdoor Furniture </a></li>
+                        </ul><!-- End .menu-vertical -->
+                    </nav><!-- End .side-nav -->
+                </div><!-- End .dropdown-menu -->
+            </div><!-- End .category-dropdown -->
+        </div><!-- End .header-left -->
+
+        <div class="header-center">
+            <nav class="main-nav">
+                <ul class="menu sf-arrows">
+                    <li>
+                        <a href="{{ url_for('food.index') }}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.category') }}" >Menu</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.about') }}" >About</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.contact') }}" >Contact</a>
+                    </li>
+            </nav><!-- End .main-nav -->
+        </div><!-- End .header-center -->
+
+        <div class="header-right">
+            <i class="la la-lightbulb-o"></i><p>Clearance<span class="highlight">&nbsp;Up to 30% Off</span></p>
+        </div>
+    </div><!-- End .container -->
+</div><!-- End .header-bottom -->
+</header><!-- End .header -->
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+                <div class="container d-flex align-items-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('food.index') }}">Home</a></li>
+                        <li class="breadcrumb-item active"><a href="product">Products</a></li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+                <div class="container">
+                    <div class="container-flash">
+                        {% for message in get_flashed_messages() %}
+                            <div class="modal-body" data-toggle="modal" tabindex="-1">      
+                                <div class="p-3 mb-2 bg-success text-white" id="flash">
+                                    {{ message }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="product-details-top">
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                    <div class="row">
+                                        <figure class="product-main-image">
+                                            <img id="product-zoom" src="{{ url_for('static', filename='images/data-images/' + menu['image']) }}" data-zoom-image="{{ url_for('static', filename='images/data-images/' + menu['image']) }}" alt="product image">
+
+                                            <a href="#" id="btn-product-gallery" class="btn-product-gallery">
+                                                <i class="icon-arrows"></i>
+                                            </a>
+                                        </figure><!-- End .product-main-image -->
+                                    </div><!-- End .row -->
+                            </div><!-- End .col-md-6 -->
+
+                            <div class="col-md-6">
+                                <div class="product-details">
+                                    <h1 class="product-title">{{ menu['dish_name'] }}</h1><!-- End .product-title -->
+
+                                    <div class="ratings-container">
+                                        <form method="POST" action="{{ url_for('user.rate', id=menu['id']) }}">
+                                            {% for i in range (1, 6) %}
+                                                <label>
+                                                    <input type="radio" name="rating" value="{{ i }}" required/>
+                                                    <span title="{{ i }} star(s)" class="star">&#9733;</span>
+                                                </label>
+                                            {% endfor %}
+                                            <input type="Submit" class="form-control" value="Add Rating">
+                                        </form>
+                                        <a class="ratings-text" href="#product-review-link" id="review-link">( {{ menu['reviews']}} Reviews )</a>
+                                    </div><!-- End .rating-container -->
+
+                                    <div class="product-price">
+                                        &#8358;{{ menu['price'] }}
+                                    </div><!-- End .product-price -->
+
+                                    <div class="product-content">
+                                        <p>{{ menu['description'] }} </p>
+                                    </div><!-- End .product-content -->
+
+                                    <div class="product-content">
+                                        <label>Dietary Preference: </label>
+                                        <a href="#">{{ menu['dietary_preference'] }}</a>
+
+                                    </div><!-- End .details-filter-row -->
+
+                                    <div class="details-filter-row details-row-size">
+                                        <label for="qty">Qty:</label>
+                                            <input type="number" id="qty" class="form-control" value="1" min="1" required>
+                                    </div><!-- End .details-filter-row -->
+
+                                    <div class="product-details-action">
+                                        <a href="{{ url_for('user.addCart', id=menu['id']) }}" class="btn-product btn-cart" title="Add to Cart"><span>add to cart</span></a>
+                                    </div>
+
+                                    <div class="product-details-footer">
+                                        <div class="product-cat">
+                                            <span>Category:</span>
+                                            <a href="#">{{ menu['cuisine_type'] }}</a>
+                                        </div><!-- End .product-cat -->
+
+                                        <div class="social-icons social-icons-sm">
+                                            <span class="social-label">Share:</span>
+                                            <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                                            <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                                            <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                                            <a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                                        </div>
+                                    </div><!-- End .product-details-footer -->
+                                </div><!-- End .product-details -->
+                            </div><!-- End .col-md-6 -->
+
+                            </div><!-- End .col-md-6 -->
+                        </div><!-- End .row -->
+                    </div>
+
+                    <h2 class="title text-center mb-4">Checkout Other Dishes from {{ restaurant['restaurant_name'] }}</h2><!-- End .title text-center -->
+
+                    <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                        data-owl-options='{
+                            "nav": false, 
+                            "dots": true,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":1
+                                },
+                                "480": {
+                                    "items":2
+                                },
+                                "768": {
+                                    "items":3
+                                },
+                                "992": {
+                                    "items":4
+                                },
+                                "1200": {
+                                    "items":4,
+                                    "nav": true,
+                                    "dots": false
+                                }
+                            }
+                        }'>
+                        {% for row in dishes %}
+                        <div class="product product-7 text-center">
+                            <figure class="product-media">
+                                <span class="product-label label-new">New</span>
+                                <a href="{{ url_for('food.viewMenu', id=row['id']) }}">
+                                    <img src="{{ url_for('static', filename='images/data-images/' + row['image']) }}" alt="Product image" class="product-image">
+                                </a>
+
+                                <div class="product-action">
+                                    <a href="{{ url_for('user.addCart', id=row['id']) }}" class="btn-product btn-cart"><span>Add to Cart</span></a>
+                                </div><!-- End .product-action -->
+                            </figure><!-- End .product-media -->
+
+                            <div class="product-body">
+                                <div class="product-cat">
+                                    <a href="#">{{ row['cuisine_type'] }}</a>
+                                </div><!-- End .product-cat -->
+                                <h3 class="product-title">{{ row['dish_name'] }}</h3><!-- End .product-title -->
+                                <div class="product-price">
+                                   &#8358; {{ row['price'] }}
+                                </div><!-- End .product-price -->
+                                <div class="ratings-container">
+                                    {% if row['rating'] != 0%}
+                                        {% for i in range (1, 6) %}
+                                            {% if i <= row['rating'] / row['reviews'] %}
+                                                <span title="{{ i }} star(s)" class="stars">&#9733;</span>
+                                            {% else %}
+                                                <span title="{{ i }} star(s)" class="stars">&#9734;</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                    {% for i in range (1, 6) %}
+                                        <span title="{{ i }} star(s)" class="star">&#9733;</span>
+                                {% endfor %}
+                                    {% endif %}
+                                    <span class="ratings-text">( {{ row['reviews']}} Reviews )</span>
+                                </div><!-- End .rating-container -->
+                            </div><!-- End .product-body -->
+                        </div><!-- End .product -->
+                        {% endfor %}
+                    </div><!-- End .owl-carousel -->
+                </div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        {%endblock%}

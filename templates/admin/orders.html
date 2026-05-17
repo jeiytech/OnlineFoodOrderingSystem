@@ -1,0 +1,280 @@
+{%extends 'base-admin.html'%}
+{%block content%}
+                <!-- main header @e -->
+                <!-- content @s -->
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block-head nk-block-head-sm">
+                                    <div class="nk-block-between">
+                                        <div class="nk-block-head-content">
+                                            <h3 class="nk-block-title page-title">Orders</h3>
+                                        </div><!-- .nk-block-head-content -->
+                                        <div class="nk-block-head-content">
+                                            <div class="toggle-wrap nk-block-tools-toggle">
+                                                <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                                                <div class="toggle-expand-content" data-content="pageMenu">
+                                                    <ul class="nk-block-tools g-3">
+                                                        <li>
+                                                            <div class="form-control-wrap">
+                                                                <div class="form-icon form-icon-right">
+                                                                    <em class="icon ni ni-search"></em>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="default-04" placeholder="Quick search by id">
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div><!-- .nk-block-head-content -->
+                                    </div><!-- .nk-block-between -->
+                                </div><!-- .nk-block-head -->
+                                {% if data %}
+                                <div class="nk-block">
+                                    <div class="nk-tb-list is-separate is-medium mb-3">
+                                        <div class="nk-tb-item nk-tb-head">
+                                            <div class="nk-tb-col nk-tb-col-check">
+                                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                    <input type="checkbox" class="custom-control-input" id="oid">
+                                                    <label class="custom-control-label" for="oid"></label>
+                                                </div>
+                                            </div>
+                                            <div class="nk-tb-col"><span>Order ID</span></div>
+                                            <div class="nk-tb-col tb-col-md"><span>Restaurant Name</span></div>
+                                            <div class="nk-tb-col tb-col-md"><span>Date</span></div>
+                                            <div class="nk-tb-col"><span class="d-none d-sm-block">Delivery Status</span></div>
+                                            <div class="nk-tb-col"><span class="d-none d-sm-block">Payment Status</span></div>
+                                            <div class="nk-tb-col"><span class="d-none d-sm-block">Payment Method</span></div>
+                                            <div class="nk-tb-col tb-col-sm"><span>Customer</span></div>
+                                            <div class="nk-tb-col"><span>Total</span></div>
+                                        </div><!-- .nk-tb-item -->
+                                        {% for orders in data %}
+                                        <div class="nk-tb-item">
+                                            <div class="nk-tb-col nk-tb-col-check">
+                                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                    <input type="checkbox" class="custom-control-input" id="oid01">
+                                                    <label class="custom-control-label" for="oid01"></label>
+                                                </div>
+                                            </div>
+                                            <div class="nk-tb-col">
+                                                <span class="tb-lead"><a href="#">#{{orders['order_id']}}</a></span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-md">
+                                                <span class="tb-sub">{{orders['restaurant_name']}}</span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-md">
+                                                <span class="tb-sub">{{orders['date']}}</span>
+                                            </div>
+                                            <div class="nk-tb-col">
+                                                <span class="dot bg-warning d-sm-none"></span>
+                                                {% if orders['delivery_status'] == 0 %}
+                                                <span class="badge badge-sm badge-dot has-bg bg-warning d-none d-sm-inline-flex">Pending</span>
+                                                {% else %}
+                                                <span class="badge badge-sm badge-dot has-bg bg-success d-none d-sm-inline-flex">Delivered</span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="nk-tb-col tb-col-md">
+                                                {% if orders['payment_status'] == 0 %}
+                                                <span class="tb-status text-danger">Unpaid</span>
+                                                {% else %}
+                                                <span class="tb-status text-success">Paid</span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="nk-tb-col tb-col-md">
+                                                <span class="tb-sub">{{orders['payment_method']}}</span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-sm">
+                                                <span class="tb-sub">{{orders['full_name']}}</span>
+                                            </div>
+
+                                            <div class="nk-tb-col">
+                                                <span class="tb-lead">&#8358; {{orders['total']}}</span>
+                                            </div>
+                                            <div class="nk-tb-col nk-tb-col-tools">
+                                                <ul class="nk-tb-actions gx-1">
+                                                    {% if g.user['usertype'] == 1%}
+                                                    {% if orders['delivery_status'] == 0 %}
+                                                    <li class="nk-tb-action-hidden"><a href="{{ url_for('admin.orderDelivered', id=orders['id']) }}" class="btn btn-icon btn-trigger btn-tooltip" title="Mark as Delivered">
+                                                        <em class="icon ni ni-truck"></em></a></li>
+                                                        {% endif %}
+                                                        {% if orders['payment_status'] == 0 %}
+                                                        <li class="nk-tb-action-hidden"><a href="{{ url_for('admin.orderPaid', id=orders['id'], user_id=orders['user_id'], res_id=orders['res_id'], total=orders['total']) }}" class="btn btn-icon btn-trigger btn-tooltip" title="Mark as Paid">
+                                                            <em class="icon ni ni-check"></em></a></li>
+                                                            {% endif %}
+                                                    {% endif  %}
+                                                    <li class="nk-tb-action-hidden"><button class="btn btn-icon btn-trigger btn-tooltip" title="View Order" id="view-order{{orders['id']}}">
+                                                        <em class="icon ni ni-eye"></em>
+                                                    </button></li>
+
+                                                    <div class="modalA" id="modal{{orders['id']}}">
+                                                        <div class="modalA-content">
+                                                            {% if orders['delivery_status'] == 0 %}
+                                                            <span class="badge badge-sm badge-dot has-bg bg-warning d-none d-sm-inline-flex">Pending</span>
+                                                            {% else %}
+                                                            <span class="badge badge-sm badge-dot has-bg bg-success d-none d-sm-inline-flex">Delivered</span>
+                                                            {% endif %}
+                                                            {% if orders['payment_status'] == 0 %}
+                                                            <span class="tb-status text-danger">Unpaid</span>
+                                                            {% else %}
+                                                            <span class="tb-status text-success">Paid</span>
+                                                            {% endif %}
+                                                            <span class="close">&times;</span>
+
+                                                            <p class="numberid">Order Id: {{orders['order_id']}}</p>
+                                                            <div class="row">
+                                                                <div class="col-lg-5">
+                                                                    <h3 class="checkout-title">Billing Details</h3><!-- End .checkout-title -->
+                                
+                                                                        <h6>Full Name:</h6>
+                                                                        <p>{{orders['full_name']}}</p>
+                                
+                                                                        <h6>Street address *</h6>
+                                                                        <p>{{orders['street_address']}}</p>
+                                
+                                                                        <h6>Phone *</h6>
+                                                                        <p>{{orders['phone_number']}}</p>
+                                
+                                                                        <h6>Order notes</h6>
+                                                                        <p>{{orders['order_notes']}}</p>
+
+                                                                        <h6>Payment Method</h6>
+                                                                        <p> {{orders['payment_method']}}</p>
+                                                                </div>
+                                                            
+                                                                <aside class="col-lg-6">
+                                                                    <div class="summary">
+                                                                        <h3 class="summary-title">Order</h3><!-- End .summary-title -->
+
+                                                                        <h5>To: {{orders['restaurant_name']}}</h5>
+                                
+                                                                        <table class="table table-summary">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Product</th>
+                                                                                    <th style="text-align: center;">Quantity</th>
+                                                                                    <th style="text-align: center;">Price</th>
+                                                                                    <th>Total</th>
+                                                                                </tr>
+                                                                            </thead>
+                                
+                                                                            <tbody>
+                                                                                {% for item_list in item_lists %}
+                                                                                    {% for item in item_list %}
+                                                                                        {% if item[0] == orders['id'] %}
+                                                                                            <tr>
+                                                                                                <td>{{ item[1] }}</td>
+                                                                                                <td>{{ item[2] }}</td>
+                                                                                                <td>&#8358;{{ item[3] }}</td>
+                                                                                                <td>&#8358;<span class="total">{{ item[2] * item[3] }}</span></td>
+                                                                                            </tr>
+                                                                                        {% endif %}
+                                                                                    {% endfor %}
+                                                                                {% endfor %}
+
+                                                                                <tr>
+                                                                                    <td>Subtotal:</td>
+                                                                                    <td style="text-align: center;"></span></td>
+                                                                                    <td style="text-align: center;"></span></td>
+                                                                                    <td>&#8358;<span class="subtotal{{orders['id']}}"></span></td>
+                                                                                </tr>
+                                                                                                                            
+                                                                                <tr>
+                                                                                    <td>Delivery fee:</td>
+                                                                                    <td style="text-align: center;"></span></td>
+                                                                                    <td style="text-align: center;"></span></td>
+                                                                                    <td>&#8358;{{ orders['delivery_fee']}}</td>
+                                                                                </tr>
+                                                                                <tr class="summary-total">
+                                                                                    <td>Total:</td>
+                                                                                    <td style="text-align: center;"></span></td>
+                                                                                    <td style="text-align: center;"></span></td>
+                                                                                    <td>&#8358;{{orders['total']}}</td>
+                                                                                </tr><!-- End .summary-total -->
+                                                                            </tbody>
+                                                                        </table><!-- End .table table-summary -->
+                                                                    </div><!-- End .summary -->
+                                                                </aside>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        </div><!-- .nk-tb-item -->
+                                        {% endfor%}
+                                    </div><!-- .nk-tb-list -->
+                                </div><!-- .nk-block -->
+                                {% else %}
+                                <p>No Orders for today yet</p>
+                                {%  endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content @e -->
+                <!-- footer @s -->
+                <div class="nk-footer">
+                    <div class="container-fluid">
+                        <div class="nk-footer-wrap">
+                            <div class="nk-footer-copyright"> &copy; 2023 GoFood
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- footer @e -->
+            </div>
+            <!-- wrap @e -->
+        </div>
+        <!-- main @e -->
+        <script>
+            $(document).ready(function() {
+                {% for m in modal %}
+                // Get the modal{{ m['id'] }}
+                var modal{{ m['id'] }} = document.getElementById("modal{{ m['id'] }}");
+                // Get the button that opens the modal
+                var btn{{ m['id'] }} = document.getElementById("view-order{{ m['id'] }}");
+                {% endfor %}
+            
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName("close")[0];
+            
+                // When the user clicks on the button, open the modal
+                {% for m in modal %}
+                btn{{ m['id'] }}.onclick = function() {
+                    modal{{ m['id'] }}.style.display = "block";
+                }
+                {% endfor %}
+            
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function() {
+                    {% for m in modal %}
+                    modal{{ m['id'] }}.style.display = "none";
+                    {% endfor %}
+                }
+            
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    {% for m in modal %}
+                    if (event.target == modal{{ m['id'] }}) {
+                        modal{{ m['id'] }}.style.display = "none";
+                    }
+                    {% endfor %}
+                }
+
+                {% for order in modal %}
+                    var subtotal{{order['id']}} = 0.00;
+                    {% for item_list in item_lists %}
+                        {% for item in item_list %}
+                            {% if item[0] == order['id'] %}
+                                subtotal{{order['id']}} += parseFloat('{{ item[2] * item[3] }}');
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    $('.subtotal{{order['id']}}').text(subtotal{{order['id']}}.toFixed(2));
+                {% endfor %}
+                
+            });
+            </script>
+            
+
+        {%endblock%}

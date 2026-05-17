@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+    <base href="../../">
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="../static/images/favicon.png">
+    <!-- Page Title  -->
+    <title>GoFood</title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="../static/css/dashlite.css?ver=3.1.2">
+    <link id="skin-default" rel="stylesheet" href="../static/css/theme.css?ver=3.1.2">
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+    <script src="../static/vendor/jquery/jquery-migrate.min.js"></script>
+</head>
+
+<body class="nk-body bg-lighter npc-general has-sidebar ">
+    <div class="nk-app-root">
+        <!-- main @s -->
+        <div class="nk-main">
+            <!-- wrap @s -->
+            <div class="nk-wrap">
+                <!-- main header @s -->
+                <div class="nk-header nk-header-fixed is-light">
+                    <div class="container-fluid">
+                        <div class="nk-header-wrap">
+                            <div class="nk-menu-trigger d-xl-none ms-n1">
+                                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                            </div>
+                            <div class="nk-header-app-name">
+                                <div class="nk-header-app-logo">
+                                    <a href="{{ url_for('food.index') }}">
+                                        <em class="icon ni ni-inbox bg-purple-dim" title="Home"></em>
+                                    </a>
+                                </div>
+                                <div class="nk-header-app-info">
+                                    {% if g.user['usertype'] == 0%}
+                                    <span class="sub-text">orders</span>
+                                    <span class="lead-text">Back to Home</span>
+                                    {% else %}
+                                    <span class="sub-text">Personal Details</span>
+                                    <span class="lead-text">Mail Box</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if g.user['usertype'] == 0%}
+                            {% else %}
+                            <div class="nk-header-tools">
+                                <ul class="nk-quick-nav">
+                                    <li class="dropdown notification-dropdown">
+                                        <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                                            <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown user-dropdown">
+                                        <a href="{{ url_for('admin.mailbox') }}" title="Mailbox">
+                                            <div class="user-toggle">
+                                                <div class="user-avatar sm">
+                                                    <em class="icon ni ni-inbox"></em>
+                                                </div>
+                                            </div>
+                                            <span>Inbox</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="dropdown user-dropdown">
+                                        <a href="{{ url_for('admin.userprofile') }}" title="Profile">
+                                            <div class="user-toggle">
+                                                <div class="user-avatar sm">
+                                                    <em class="icon ni ni-user-alt"></em>
+                                                </div>
+                                            </div>
+                                            <span>Activity</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+        

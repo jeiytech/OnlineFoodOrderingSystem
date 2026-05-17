@@ -1,0 +1,99 @@
+{%extends 'base-admin.html'%}
+{%block content%}
+                <!-- main header @e -->
+                <!-- content @s -->
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block-head nk-block-head-sm">
+                                    <div class="nk-block-between">
+                                        <div class="nk-block-head-content">
+                                            <h3 class="nk-block-title page-title">Products</h3>
+                                        </div><!-- .nk-block-head-content -->
+                                        <div class="nk-block-head-content">
+                                            <div class="toggle-wrap nk-block-tools-toggle">
+                                                <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                                                <div class="toggle-expand-content" data-content="pageMenu">
+                                                    <ul class="nk-block-tools g-3">
+                                                        <li>
+                                                            <div class="form-control-wrap">
+                                                                <div class="form-icon form-icon-right">
+                                                                    <em class="icon ni ni-search"></em>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="default-04" placeholder="Quick search by id">
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div><!-- .nk-block-head-content -->
+                                    </div><!-- .nk-block-between -->
+                                </div><!-- .nk-block-head -->
+
+                                {% if data %}
+                                <div class="nk-block">
+                                    <div class="nk-tb-list is-separate mb-3">
+                                        <div class="nk-tb-item nk-tb-head">
+                                            <div class="nk-tb-col nk-tb-col-check">
+                                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                    <input type="checkbox" class="custom-control-input" id="pid">
+                                                    <label class="custom-control-label" for="pid"></label>
+                                                </div>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-sm"><span>Dish Name</span></div>
+                                            <div class="nk-tb-col"><span>Cuisine Type</span></div>
+                                            <div class="nk-tb-col"><span>Price</span></div>
+                                            <div class="nk-tb-col tb-col-md"><span>Dietary Preference</span></div>
+                                        </div><!-- .nk-tb-item -->
+                                        {% for row in data %}
+                                        <div class="nk-tb-item">
+                                            <div class="nk-tb-col nk-tb-col-check">
+                                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                    <input type="checkbox" class="custom-control-input" id="pid1">
+                                                    <label class="custom-control-label" for="pid1"></label>
+                                                </div>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-sm">
+                                                <span class="tb-product">
+                                                    <img src="{{ url_for('static', filename='images/data-images/' + row['image']) }}" alt="" class="thumb">
+                                                    <span class="title">{{ row['dish_name'] }}</span>
+                                                </span>
+                                            </div>
+                                            <div class="nk-tb-col">
+                                                <span class="tb-sub">{{ row['cuisine_type'] }}</span>
+                                            </div>
+                                            <div class="nk-tb-col">
+                                                <span class="tb-lead">&#8358; {{ row['price'] }}</span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-md">
+                                                <span class="tb-sub">{{ row['dietary_preference'] }}</span>
+                                            </div>
+                                        </div><!-- .nk-tb-item -->
+                                        {% endfor %}
+                                    </div><!-- .nk-tb-list -->
+                                </div><!-- .nk-block -->
+                                {% else %}
+                                <p>No dishes has been added yet</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content @e -->
+                <!-- footer @s -->
+                <div class="nk-footer">
+                    <div class="container-fluid">
+                        <div class="nk-footer-wrap">
+                            <div class="nk-footer-copyright"> &copy; 2023 GoFood
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- footer @e -->
+            </div>
+            <!-- wrap @e -->
+        </div>
+        <!-- main @e -->
+
+        {%endblock%}

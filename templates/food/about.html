@@ -1,0 +1,145 @@
+{%extends 'base.html'%}
+{%block content%}
+
+<div class="header-bottom sticky-header">
+	<div class="container">
+		<div class="header-left">
+			<div class="dropdown category-dropdown">
+				<a href="#" class="dropdown-toggle" title="Checkout">
+					About
+				</a>
+			</div><!-- End .category-dropdown -->
+		</div><!-- End .header-left -->
+
+        <div class="header-center">
+            <nav class="main-nav">
+                <ul class="menu sf-arrows">
+                    <li>
+                        <a href="{{ url_for('food.index') }}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.category') }}" >Menu</a>
+                    </li>
+                    <li class="megamenu-container active">
+                        <a href="{{ url_for('food.about') }}" >About</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('food.contact') }}" >Contact</a>
+                    </li>
+            </nav><!-- End .main-nav -->
+        </div><!-- End .header-center -->
+
+        
+    </div><!-- End .container -->
+</div><!-- End .header-bottom -->
+</header><!-- End .header -->
+
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('food.index') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">About us</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+            <div class="container">
+	        	<div class="page-header page-header-big text-center" style="background-image: url('static/images/about-header-bg.jpg')">
+        			<h1 class="page-title text-white">About us</h1>
+	        	</div><!-- End .page-header -->
+            </div><!-- End .container -->
+
+            
+
+                <div class="bg-light-2 pt-6 pb-5 mb-6 mb-lg-8">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-5 mb-3 mb-lg-0">
+                                <h2 class="title">ABOUT US</h2><!-- End .title -->
+                                <p class="lead text-primary mb-3">GoFood is an online food ordering system that provides an easy and convenient way for customers to order their favorite food online anytime, anywhere.
+                                    Our platform offers a wide range of food options from various restaurants and cuisines, making it easy for customers to find exactly what they want. </p><!-- End .lead text-primary -->
+                                <p class="mb-2">GoFood is dedicated to making food ordering as easy as possible. With just a few clicks, customers can browse menus, select their preferred items, and place an order.
+                                    We offer various payment options and our delivery service is fast and reliable. </p>
+
+                            </div><!-- End .col-lg-5 -->
+
+                            <div class="col-lg-6 offset-lg-1">
+                                <div class="about-images">
+                                    <img src="static/images/img-1.jpg" alt="" class="about-img-front"> 
+                                  <!--  <img src="static/images/about/img-2.jpg" alt="" class="about-img-back">-->
+                                </div><!-- End .about-images -->
+                            </div><!-- End .col-lg-6 -->
+                        </div><!-- End .row -->
+                    </div><!-- End .container -->
+                </div><!-- End .bg-light-2 pt-6 pb-6 -->
+
+                <div class="page-content pb-0">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6 mb-3 mb-lg-0">
+                                <h2 class="title">Our Vision</h2><!-- End .title -->
+                                <p>At GoFood, our vision is to create a world where everyone can enjoy delicious, high-quality food at their convenience.
+                                    We strive to be the leading online food ordering platform, offering a wide range of cuisines and dishes that cater to every taste and preference.
+                                    Our goal is to make food ordering easy, fast, and enjoyable for everyone. </p>
+                            </div><!-- End .col-lg-6 -->
+                            
+                            <div class="col-lg-6">
+                                <h2 class="title">Our Mission</h2><!-- End .title -->
+                                <p>
+                                    Certainly, here's a possible mission statement for GoFood:
+                                    
+                                    Our mission at GoFood is to provide a seamless and reliable online food ordering experience for our customers.
+                                    We work tirelessly to connect people with the best restaurants and cuisines, offering a wide range of options to cater to every taste and preference.
+                                    Our goal is to make food ordering easy, convenient, and enjoyable for everyone, while prioritizing food quality, affordability, and customer satisfaction.</p>
+                            </div><!-- End .col-lg-6 -->
+                        </div><!-- End .row -->
+    
+                        <div class="mb-5"></div><!-- End .mb-4 -->
+                    </div><!-- End .container -->                
+                <div class="container">
+
+                <div class="mb-2"></div><!-- End .mb-2 -->
+
+                <div class="about-testimonials bg-light-2 pt-6 pb-6">
+                    <div class="container">
+                        <h2 class="title text-center mb-3">What Customer Say About Us</h2><!-- End .title text-center -->
+
+                        <div class="owl-carousel owl-simple owl-testimonials-photo" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "1200": {
+                                        "nav": true
+                                    }
+                                }
+                            }'>
+                            <blockquote class="testimonial text-center">
+                                <img src="static/images/testimonials/user-1.jpg" alt="user">
+                                <p>"I love how GoFood makes it easy to find and order food from all of my favorite restaurants in one place.
+                                    The platform is user-friendly and the customer service is excellent. I highly recommend it!"</p>
+                                <cite>
+                                    Hunter White
+                                    <span>Customer</span>
+                                </cite>
+                            </blockquote><!-- End .testimonial -->
+
+                            <blockquote class="testimonial text-center">
+                                <img src="static/images/testimonials/user-2.jpg" alt="user">
+                                <p>"GoFood has been a game-changer for me. As someone with a busy schedule, it's so convenient to be able to order food online and have it delivered to my door.
+                                    The variety of options and the quality of the food is always top-notch. I'm a happy customer!"</p>
+
+                                <cite>
+                                    Kate Johnson
+                                    <span>Customer</span>
+                                </cite>
+                            </blockquote><!-- End .testimonial -->
+                        </div><!-- End .testimonials-slider owl-carousel -->
+                    </div><!-- End .container -->
+                </div><!-- End .bg-light-2 pt-5 pb-6 -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        {%endblock%}
